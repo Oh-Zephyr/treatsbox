@@ -17,6 +17,7 @@ export default function PaymentPage() {
   const [settings, setSettings] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const [errorDetail, setErrorDetail] = useState("");
 
   useEffect(() => {
     fetch("/api/settings")
@@ -48,6 +49,7 @@ export default function PaymentPage() {
     if (submitting) return;
     setSubmitting(true);
     setError("");
+    setErrorDetail("");
 
     let idempotencyKey = window.localStorage.getItem(PENDING_KEY);
     if (!idempotencyKey) {
@@ -64,6 +66,7 @@ export default function PaymentPage() {
       const data = await res.json();
       if (!res.ok) {
         setError(data.error || "Something went wrong while submitting your order. Please try again.");
+        if (data.detail) setErrorDetail(data.detail);
         setSubmitting(false);
         return;
       }
@@ -113,7 +116,12 @@ export default function PaymentPage() {
         <p className="text-sm text-ink2 mt-6 mb-4">After making your transfer, click the button below.</p>
 
         {error && (
-          <p className="text-sm text-alert bg-alert/10 rounded-xl px-4 py-3 mb-4">{error}</p>
+          <div className="text-sm text-alert bg-alert/10 rounded-xl px-4 py-3 mb-4">
+            <p>{error}</p>
+            {errorDetail && (
+              <p className="text-xs text-alert/70 mt-1.5 font-mono break-words">Technical detail: {errorDetail}</p>
+            )}
+          </div>
         )}
 
         <button

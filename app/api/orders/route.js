@@ -89,7 +89,12 @@ export async function POST(req) {
     // diagnosable instead of just "something went wrong" with no trace.
     console.error("Failed to create order:", err);
     return NextResponse.json(
-      { error: "Something went wrong while submitting your order. Please try again, or contact us on WhatsApp if it keeps happening." },
+      {
+        error: "Something went wrong while submitting your order. Please try again, or contact us on WhatsApp if it keeps happening.",
+        // TEMPORARY diagnostic detail — remove once the underlying cause is
+        // confirmed fixed. Not sensitive: no credentials or customer data.
+        detail: `${err?.code ? `[${err.code}] ` : ""}${err?.message || String(err)}`
+      },
       { status: 500 }
     );
   }
