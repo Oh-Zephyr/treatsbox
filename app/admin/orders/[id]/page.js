@@ -11,6 +11,9 @@ export default function AdminOrderDetail() {
   const router = useRouter();
   const [order, setOrder] = useState(null);
   const [busy, setBusy] = useState(false);
+  const [receiptUrl, setReceiptUrl] = useState(null);
+  const [receiptLoading, setReceiptLoading] = useState(false);
+  const [receiptError, setReceiptError] = useState("");
 
   const load = () => fetch(`/api/admin/orders/${id}`).then((r) => r.json()).then((d) => setOrder(d.order));
 
@@ -31,7 +34,25 @@ export default function AdminOrderDetail() {
     setBusy(false);
   };
 
+  const loadReceipt = async () => {
+    setReceiptLoading(true);
+    setReceiptError("");
+    try {
+      const res = await fetch(`/api/admin/orders/${id}/receipt-url`);
+      const data = await res.json();
+      if (res.ok) {
+        setReceiptUrl(data.url);
+      } else {
+        setReceiptError(data.error || "Couldn't load the receipt.");
+      }
+    } finally {
+      setReceiptLoading(false);
+    }
+  };
+
   if (!order) return <p className="text-sm text-ink2">Loading order…</p>;
+
+  const isPdf = order.receiptPath?.toLowerCase().endsWith(".pdf");
 
   return (
     <div className="max-w-3xl">
@@ -87,6 +108,36 @@ export default function AdminOrderDetail() {
           <div className="flex justify-between text-ink2"><span>Packaging</span><span className="tabular-nums">{formatNaira(order.packagingTotal)}</span></div>
           <div className="flex justify-between font-bold text-ink pt-1"><span>Grand Total</span><span className="tabular-nums">{formatNaira(order.grandTotal)}</span></div>
         </div>
+      </div>
+
+      <div className="bg-white rounded-xl2 shadow-card p-5 mb-4">
+        <h3 className="font-display text-base text-ink mb-3">Receipt</h3>
+        {!order.receiptPath ? (
+          <p className="text-sm text-ink2">No receipt uploaded yet{order.receiptStatus === "Submitted" ? " — likely sent via WhatsApp instead." : "."}</p>
+        ) : receiptUrl ? (
+          isPdf ? (
+            <a href={receiptUrl} target="_blank" rel="noreferrer" className="text-sm font-semibold text-oxblood underline underline-offset-4">
+              Open receipt PDF
+            </a>
+          ) : (
+            <a href={receiptUrl} target="_blank" rel="noreferrer" className="block">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={receiptUrl} alt="Payment receipt" className="max-w-xs rounded-xl border border-line" />
+              <span className="text-xs text-ink2 mt-1 block">Click to view full size</span>
+            </a>
+          )
+        ) : (
+          <div>
+            <button
+              onClick={loadReceipt}
+              disabled={receiptLoading}
+              className="rounded-full border border-line text-ink font-semibold px-4 py-2 text-sm disabled:opacity-50"
+            >
+              {receiptLoading ? "Loading…" : "View Receipt"}
+            </button>
+            {receiptError && <p className="text-xs text-alert mt-2">{receiptError}</p>}
+          </div>
+        )}
       </div>
 
       <div className="bg-white rounded-xl2 shadow-card p-5">

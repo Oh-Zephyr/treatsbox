@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import StatusBadge from "../../components/StatusBadge";
@@ -18,6 +18,10 @@ export default function OrderStatusPage() {
   const [settings, setSettings] = useState(null);
   const [notFound, setNotFound] = useState(false);
   const [sendingReceipt, setSendingReceipt] = useState(false);
+  const [showWhatsappOption, setShowWhatsappOption] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [uploading, setUploading] = useState(false);
+  const fileInputRef = useRef(null);
 
   const load = async () => {
     const res = await fetch(`/api/orders/${orderNumber}`);
@@ -56,6 +60,43 @@ export default function OrderStatusPage() {
     }
   };
 
+  const handleFileChange = (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 8 * 1024 * 1024) {
+      showToast("That file is too large (max 8MB).", "error");
+      e.target.value = "";
+      return;
+    }
+    setSelectedFile(file);
+  };
+
+  const handleUpload = async () => {
+    if (!selectedFile || uploading) return;
+    setUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+      const res = await fetch(`/api/orders/${orderNumber}/receipt`, {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setOrder(data.order);
+        setSelectedFile(null);
+        if (fileInputRef.current) fileInputRef.current.value = "";
+        showToast("Receipt uploaded — we'll confirm your payment soon.");
+      } else {
+        showToast(data.error || "Something went wrong uploading your receipt.", "error");
+      }
+    } catch {
+      showToast("Something went wrong uploading your receipt. Please try again.", "error");
+    } finally {
+      setUploading(false);
+    }
+  };
+
   if (notFound) {
     return (
       <main className="max-w-md mx-auto px-5 py-24 text-center">
@@ -74,8 +115,6 @@ export default function OrderStatusPage() {
     `Hello Treatsbox,\n\nI have made payment for my order.\n\nOrder Number: ${order.orderNumber}\nName: ${order.customerName}\nAmount: ${formatNaira(order.grandTotal)}\n\nI am sending my payment receipt for verification.`
   );
   const whatsappHref = `https://wa.me/${settings.whatsappNumber}?text=${whatsappMessage}`;
-
-  const receiptSubmitted = order.receiptStatus === "Submitted";
 
   return (
     <main className="relative max-w-md mx-auto px-5 md:px-0 py-10 md:py-16 overflow-hidden">
@@ -130,41 +169,75 @@ export default function OrderStatusPage() {
           <div className="p-6 pt-5 bg-paper2/40">
             <p className="text-sm text-ink2 leading-relaxed">
               {order.paymentStatus === "Not Verified" &&
-                "Your order is already in the queue. To verify your payment, send your receipt to us on WhatsApp."}
+                "Your order is already in the queue. Upload your payment receipt below so we can verify it."}
               {order.paymentStatus === "Awaiting Confirmation" &&
                 "Your receipt has been submitted. Treatsbox will confirm your payment shortly."}
               {order.paymentStatus === "Confirmed" &&
                 "Your payment has been confirmed. Your order stays in the queue for collection."}
               {order.paymentStatus === "Rejected" &&
-                "We couldn't verify your payment. Please send a clear receipt on WhatsApp, or contact us."}
+                "We couldn't verify your payment. Please upload a clear receipt below, or contact us."}
             </p>
             <p className="text-sm text-ink2 mt-2">{order.fulfillmentMessage || settings.fulfillmentMessage}</p>
           </div>
         </div>
       </div>
 
-      {order.orderStatus !== "Cancelled" && order.paymentStatus !== "Confirmed" && (
+      {order.orderStatus !== "Cancelled" && (order.paymentStatus === "Not Verified" || order.paymentStatus === "Rejected") && (
         <div className="mt-6 space-y-3">
-          <a
-            href={whatsappHref}
-            target="_blank"
-            rel="noreferrer"
-            className="flex items-center justify-center gap-2 w-full rounded-full bg-gradient-to-r from-forest to-forest/80 text-white font-semibold py-3.5 shadow-pop hover:brightness-105 transition-all"
-          >
-            Send Receipt on WhatsApp
-          </a>
+          <div className="bg-white rounded-xl2 shadow-card p-5">
+            <p className="text-sm font-semibold text-ink mb-1">Upload Your Receipt</p>
+            <p className="text-xs text-ink2 mb-3">A photo or screenshot of your bank transfer. JPG, PNG, or PDF, up to 8MB.</p>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/jpeg,image/png,image/webp,image/heic,application/pdf"
+              onChange={handleFileChange}
+              className="block w-full text-sm text-ink2 file:mr-3 file:rounded-full file:border-0 file:bg-paper2 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-ink hover:file:bg-paper2/70"
+            />
+            {selectedFile && (
+              <button
+                onClick={handleUpload}
+                disabled={uploading}
+                className="mt-3 w-full rounded-full bg-gradient-to-r from-oxblood to-oxblood2 text-paper font-semibold py-3 shadow-pop hover:brightness-105 transition-all disabled:opacity-60"
+              >
+                {uploading ? "Uploading…" : `Upload ${selectedFile.name}`}
+              </button>
+            )}
+          </div>
 
           <div className="text-center">
-            <p className="text-xs text-ink2 mb-2">Already sent your receipt?</p>
-            <button
-              onClick={handleSentReceipt}
-              disabled={sendingReceipt || receiptSubmitted}
-              className="w-full rounded-full border border-line text-ink font-semibold py-3.5 disabled:opacity-50"
-            >
-              {receiptSubmitted ? "Receipt Submitted ✓" : sendingReceipt ? "Submitting…" : "I've Sent My Receipt"}
-            </button>
+            {!showWhatsappOption ? (
+              <button
+                onClick={() => setShowWhatsappOption(true)}
+                className="text-xs font-semibold text-ink2 underline underline-offset-4"
+              >
+                Prefer to send it on WhatsApp instead?
+              </button>
+            ) : (
+              <div className="space-y-3">
+                <a
+                  href={whatsappHref}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center justify-center gap-2 w-full rounded-full bg-gradient-to-r from-forest to-forest/80 text-white font-semibold py-3.5 shadow-pop hover:brightness-105 transition-all"
+                >
+                  Send Receipt on WhatsApp
+                </a>
+                <button
+                  onClick={handleSentReceipt}
+                  disabled={sendingReceipt}
+                  className="w-full rounded-full border border-line text-ink font-semibold py-3.5 disabled:opacity-50"
+                >
+                  {sendingReceipt ? "Submitting…" : "I've Sent My Receipt"}
+                </button>
+              </div>
+            )}
           </div>
         </div>
+      )}
+
+      {order.paymentStatus === "Awaiting Confirmation" && (
+        <p className="mt-6 text-center text-sm font-semibold text-forest">Receipt received ✓</p>
       )}
 
       <div className="mt-8 bg-white rounded-xl2 shadow-card p-5">
