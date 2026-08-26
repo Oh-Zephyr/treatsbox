@@ -49,12 +49,28 @@ fulfillment message, accept-orders toggle, and capacity limits.
 
 ## Data & architecture notes
 
-- **Database:** `lib/db.js` uses `lowdb` writing to `data/db.json`. This keeps
-  the app fully self-contained and easy to run anywhere with zero external
-  services — ideal for getting a real client business running today. All
-  reads/writes go through this one module, so swapping it for Postgres/MySQL
-  (e.g. via Prisma) later only means rewriting `lib/db.js`; no page or API
-  route needs to change.
+- **Database:** `lib/db.js` supports two backends automatically, based on
+  whether a Postgres connection string is present in the environment:
+  - **Postgres** (used when `POSTGRES_URL` / `POSTGRES_PRISMA_URL` /
+    `POSTGRES_URL_NON_POOLING` is set — e.g. automatically on Vercel once you
+    connect a Supabase/Postgres database from the Storage tab). The whole app
+    state is stored as a single JSONB blob in one `app_state` table/row. This
+    is a deliberately simple schema rather than a fully normalized one — for
+    an app this size it's the right tradeoff, and it means every API route
+    works unchanged regardless of which backend is active. If the business
+    grows enough that this becomes a bottleneck, splitting into real
+    tables (products/orders/etc.) is the natural next step, and is isolated
+    entirely to this one file.
+  - **Local JSON file** (`data/db.json`), used automatically when no Postgres
+    connection string is present — e.g. plain local development without a
+    database hooked up. Nothing to configure; it just works out of the box.
+
+  **Why this matters on Vercel specifically:** Vercel runs the app as
+  serverless functions with no shared, persistent disk between requests —
+  writing to a local file there looks like it works but the data doesn't
+  reliably survive to the next request. Postgres is what makes orders/admin
+  changes actually persist once deployed there. Local dev without Postgres
+  configured is unaffected — the file-based fallback works exactly as before.
 - **Pricing logic** lives in `lib/pricing.js` (pure function, shared by the
   client-side cart and the server-side order API) so totals can never drift
   between what the customer sees and what gets saved.
@@ -83,13 +99,13 @@ Paste the result into `passwordHash` in `lib/db.js`, then delete
 
 ## Deploying
 
-This runs anywhere Node.js runs (Vercel, Render, a VPS, etc.). One thing to
-set for production:
+This runs anywhere Node.js runs (Vercel, Render, a VPS, etc.). Two things
+worth setting for production:
 
 - `ADMIN_JWT_SECRET` environment variable — a long random string used to sign
   admin session cookies. If not set, a development fallback is used, which is
   fine locally but should never be used in production.
-
-`data/db.json` needs to live on persistent disk (not the case on some
-serverless platforms' ephemeral filesystems) — if you deploy somewhere without
-persistent disk, that's the point to swap in a real database as noted above.
+- A Postgres connection (`POSTGRES_URL`) — required on Vercel or any other
+  platform without persistent disk (see "Database" above for why). On
+  Render/Railway with a real persistent disk attached, the local-file backend
+  works fine without this.
