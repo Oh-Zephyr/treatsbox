@@ -22,7 +22,7 @@ function SummaryLines({ compact }) {
       <div className="text-center py-10 px-4">
         <p className="font-display text-lg text-ink mb-1">Your order is empty.</p>
         <p className="text-sm text-ink2 mb-4">Choose a package or add some individual treats.</p>
-        <a href="#order" className="inline-flex text-sm font-semibold text-oxblood underline underline-offset-4">
+        <a href="/order" className="inline-flex text-sm font-semibold text-oxblood underline underline-offset-4">
           Start Ordering
         </a>
       </div>

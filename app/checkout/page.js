@@ -18,7 +18,7 @@ export default function CheckoutPage() {
 
   useEffect(() => {
     if (hydrated && items.length === 0) {
-      router.replace("/#order");
+      router.replace("/order");
     }
   }, [hydrated, totals.lineItems.length, router]);
 

@@ -14,7 +14,7 @@ export default function ReviewPage() {
   useEffect(() => {
     if (!hydrated) return;
     if (items.length === 0) {
-      router.replace("/#order");
+      router.replace("/order");
     } else if (!customer.name || !customer.email) {
       router.replace("/checkout");
     }
