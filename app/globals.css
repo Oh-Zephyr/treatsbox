@@ -20,18 +20,6 @@ body {
   color: #2B1B12;
 }
 
-/* A single soft organic shape behind hero imagery — restrained, not decorative clutter */
-.brand-blob {
-  position: absolute;
-  border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%;
-  filter: blur(2px);
-  pointer-events: none;
-  z-index: 0;
-}
-.brand-blob.blob-cream {
-  background: linear-gradient(135deg, #F1E3C8, #EAD4A6);
-}
-
 /* Perforated / die-cut edge on the queue ticket — the app's signature motif */
 .ticket-edge {
   position: relative;
@@ -68,7 +56,7 @@ body {
 
 .tb-input {
   width: 100%;
-  border: 1px solid #E6D6BE;
+  border: 1px solid #DEC9A8;
   background: #FFFFFF;
   border-radius: 1rem;
   padding: 0.8rem 1rem;
@@ -90,7 +78,7 @@ body {
 .tb-field {
   width: 100%;
   border: none;
-  border-bottom: 1.5px solid #E6D6BE;
+  border-bottom: 1.5px solid #DEC9A8;
   background: transparent;
   border-radius: 0;
   padding: 0.65rem 0.1rem;
@@ -141,6 +129,6 @@ body {
   height: 10px;
 }
 ::-webkit-scrollbar-thumb {
-  background: #E6D6BE;
+  background: #DEC9A8;
   border-radius: 8px;
 }

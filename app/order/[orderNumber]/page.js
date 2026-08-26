@@ -81,7 +81,7 @@ export default function OrderStatusPage() {
     <main className="relative max-w-md mx-auto px-5 md:px-0 py-10 md:py-16 overflow-hidden">
       {isFresh && <Confetti />}
       <div className="text-center mb-6 animate-slide-up">
-        <div className="w-14 h-14 rounded-full bg-gradient-to-br from-forest/20 to-marigold/20 flex items-center justify-center mx-auto mb-4 shadow-glowGold">
+        <div className="w-14 h-14 rounded-full bg-gradient-to-br from-forest/20 to-marigold/20 flex items-center justify-center mx-auto mb-4 shadow-pop">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-7 h-7 text-forest">
             <path d="M20 6L9 17l-5-5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>

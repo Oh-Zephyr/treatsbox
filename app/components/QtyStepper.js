@@ -18,7 +18,7 @@ export default function QtyStepper({ value, onIncrement, onDecrement, min = 0, s
         type="button"
         aria-label="Increase quantity"
         onClick={onIncrement}
-        className={`${dim} flex items-center justify-center rounded-full bg-gradient-to-br from-oxblood to-oxblood2 text-white shadow-glow active:scale-90 transition-transform`}
+        className={`${dim} flex items-center justify-center rounded-full bg-gradient-to-br from-oxblood to-oxblood2 text-white shadow-pop active:scale-90 transition-transform`}
       >
         +
       </button>

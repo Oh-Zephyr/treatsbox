@@ -53,7 +53,7 @@ export default function PackageCard({ pkg, index = 0 }) {
           )}
           <button
             onClick={handleAdd}
-            className="rounded-full bg-gradient-to-r from-oxblood to-oxblood2 text-paper text-sm font-semibold px-5 py-2.5 shadow-glow hover:shadow-glowGold active:scale-95 transition-all"
+            className="rounded-full bg-gradient-to-r from-oxblood to-oxblood2 text-paper text-sm font-semibold px-5 py-2.5 shadow-pop hover:shadow-pop active:scale-95 transition-all"
           >
             {qty > 0 ? "Add Another" : "Add to Order"}
           </button>

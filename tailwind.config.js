@@ -24,7 +24,7 @@ module.exports = {
         forest: "#6E7A4E",
         // Muted brick — alerts, kept out of the gold/espresso family so it reads distinctly
         alert: "#A9432F",
-        line: "#E6D6BE",
+        line: "#DEC9A8",
       },
       fontFamily: {
         display: ["var(--font-display)", "Georgia", "serif"],
@@ -33,8 +33,6 @@ module.exports = {
       boxShadow: {
         card: "0 1px 2px rgba(43,27,18,0.05), 0 14px 34px -12px rgba(43,27,18,0.22)",
         pop: "0 10px 28px -6px rgba(43,27,18,0.32)",
-        glow: "0 8px 22px -6px rgba(36,21,9,0.45)",
-        glowGold: "0 8px 22px -6px rgba(200,150,62,0.4)",
       },
       borderRadius: {
         xl2: "1.5rem",
@@ -67,10 +65,6 @@ module.exports = {
           "0%": { transform: "translateY(-10px) rotate(0deg)", opacity: "0.9" },
           "100%": { transform: "translateY(160px) rotate(200deg)", opacity: "0" },
         },
-        "blob-drift": {
-          "0%, 100%": { transform: "translate(0, 0) scale(1)" },
-          "50%": { transform: "translate(2%, -2%) scale(1.04)" },
-        },
       },
       animation: {
         "pop-in": "pop-in 0.3s cubic-bezier(.3,1.4,.6,1)",
@@ -79,7 +73,6 @@ module.exports = {
         "fade-up": "fade-up 0.6s ease-out both",
         "sparkle-up": "sparkle-up 0.8s ease-out forwards",
         "petal-fall": "petal-fall 1.5s ease-in forwards",
-        "blob-drift": "blob-drift 11s ease-in-out infinite",
       },
     },
   },

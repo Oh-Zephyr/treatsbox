@@ -119,7 +119,7 @@ export default function PaymentPage() {
         <button
           onClick={handleIHavePaid}
           disabled={submitting}
-          className="w-full rounded-full bg-gradient-to-r from-oxblood to-oxblood2 text-paper font-semibold py-4 shadow-glow hover:shadow-glowGold transition-all disabled:opacity-60"
+          className="w-full rounded-full bg-gradient-to-r from-oxblood to-oxblood2 text-paper font-semibold py-4 shadow-pop hover:shadow-pop transition-all disabled:opacity-60"
         >
           {submitting ? "Placing your order…" : "I Have Paid"}
         </button>

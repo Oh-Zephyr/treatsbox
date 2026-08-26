@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 // The app's primary visual unit for food. Renders a real photo when the
 // admin has set one (Products/Packages > Photo URL), and otherwise falls
 // back to a large, intentionally-composed editorial placeholder rather than
@@ -70,13 +72,21 @@ export default function FoodVisual({
   const shapeClass = variant === "row" ? "rounded-2xl" : SHAPES[shapeIndex % SHAPES.length];
 
   if (imageUrl) {
+    // next/image gives real photography automatic WebP/AVIF conversion,
+    // responsive sizing, and lazy loading (skipped only for the hero, which
+    // is above the fold) — the performance groundwork for when actual
+    // Treatsbox photos are added, without needing them yet to build this.
     return (
-      // eslint-disable-next-line @next/next/no-img-element
-      <img
-        src={imageUrl}
-        alt={alt}
-        className={`${shapeClass} object-cover shadow-card ${className}`}
-      />
+      <div className={`relative overflow-hidden ${shapeClass} shadow-card ${className}`}>
+        <Image
+          src={imageUrl}
+          alt={alt}
+          fill
+          sizes={variant === "hero" ? "(min-width: 768px) 480px, 90vw" : variant === "row" ? "80px" : "(min-width: 768px) 360px, 90vw"}
+          className="object-cover"
+          loading={variant === "hero" ? "eager" : "lazy"}
+        />
+      </div>
     );
   }
 

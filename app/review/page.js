@@ -64,7 +64,7 @@ export default function ReviewPage() {
           </Link>
           <Link
             href="/payment"
-            className="flex-[2] text-center rounded-full bg-gradient-to-r from-oxblood to-oxblood2 text-white font-semibold py-3.5 shadow-glow hover:brightness-105 transition-all"
+            className="flex-[2] text-center rounded-full bg-gradient-to-r from-oxblood to-oxblood2 text-white font-semibold py-3.5 shadow-pop hover:brightness-105 transition-all"
           >
             Continue to Payment
           </Link>

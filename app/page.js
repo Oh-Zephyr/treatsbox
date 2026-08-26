@@ -48,7 +48,8 @@ export default function HomePage() {
         <div className="grid md:grid-cols-2 gap-10 md:gap-14 items-center">
           {/* Image first on mobile, right column on desktop */}
           <div className="relative order-1 md:order-2">
-            <div className="brand-blob blob-cream w-[86%] h-[86%] -top-6 -right-6 animate-blob-drift" />
+            {/* A solid packaging-card shadow behind the food, not a gradient blob */}
+            <div className="absolute -bottom-3 -right-3 w-full h-full bg-marigold/25 rounded-blob -z-10" />
             <div className="relative">
               <FoodVisual
                 imageUrl={heroPack?.imageUrl}
@@ -80,7 +81,7 @@ export default function HomePage() {
             </p>
             <Link
               href="#order"
-              className="inline-flex mt-8 rounded-full bg-gradient-to-r from-oxblood to-oxblood2 text-paper font-semibold px-8 py-4 shadow-glow hover:shadow-glowGold hover:-translate-y-0.5 transition-all"
+              className="inline-flex mt-8 rounded-full bg-gradient-to-r from-oxblood to-oxblood2 text-paper font-semibold px-8 py-4 shadow-pop hover:shadow-pop hover:-translate-y-0.5 transition-all"
             >
               Start Your Order
             </Link>
@@ -140,7 +141,7 @@ export default function HomePage() {
             {totals.lineItems.length > 0 && (
               <Link
                 href="/checkout"
-                className="mt-4 block text-center rounded-full bg-gradient-to-r from-oxblood to-oxblood2 text-paper font-semibold py-3 text-sm shadow-glow hover:shadow-glowGold transition-all"
+                className="mt-4 block text-center rounded-full bg-gradient-to-r from-oxblood to-oxblood2 text-paper font-semibold py-3 text-sm shadow-pop hover:shadow-pop transition-all"
               >
                 Continue to Checkout
               </Link>

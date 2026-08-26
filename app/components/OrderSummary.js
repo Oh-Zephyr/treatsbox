@@ -152,7 +152,7 @@ export function MobileOrderBar() {
                 </button>
                 <Link
                   href="/checkout"
-                  className="flex-[2] text-center rounded-full bg-gradient-to-r from-oxblood to-oxblood2 text-white font-semibold py-3 text-sm shadow-glow"
+                  className="flex-[2] text-center rounded-full bg-gradient-to-r from-oxblood to-oxblood2 text-white font-semibold py-3 text-sm shadow-pop"
                 >
                   Continue to Checkout
                 </Link>

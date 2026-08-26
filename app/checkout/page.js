@@ -104,7 +104,7 @@ export default function CheckoutPage() {
 
           <button
             type="submit"
-            className="mt-9 w-full md:w-auto rounded-full bg-gradient-to-r from-oxblood to-oxblood2 text-paper font-semibold px-8 py-4 shadow-glow hover:shadow-glowGold transition-all"
+            className="mt-9 w-full md:w-auto rounded-full bg-gradient-to-r from-oxblood to-oxblood2 text-paper font-semibold px-8 py-4 shadow-pop hover:shadow-pop transition-all"
           >
             Continue to Review
           </button>
