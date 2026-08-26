@@ -1,4 +1,5 @@
 node_modules/
 .next/
 data/db.json
+!data/.gitkeep
 .env*.local
