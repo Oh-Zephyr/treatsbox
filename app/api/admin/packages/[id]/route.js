@@ -8,7 +8,7 @@ export async function PATCH(req, { params }) {
   const pkg = db.data.packages.find((p) => p.id === id);
   if (!pkg) return NextResponse.json({ error: "Package not found." }, { status: 404 });
 
-  const fields = ["name", "description", "price", "image", "active", "contents"];
+  const fields = ["name", "description", "price", "image", "imageUrl", "active", "contents"];
   for (const f of fields) {
     if (body[f] !== undefined) pkg[f] = body[f];
   }

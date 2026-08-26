@@ -6,19 +6,19 @@ import { useCart } from "./components/CartContext";
 import SiteNav from "./components/SiteNav";
 import PackageCard from "./components/PackageCard";
 import ProductCard from "./components/ProductCard";
+import FoodVisual from "./components/FoodVisual";
 import { DesktopOrderSummary, MobileOrderBar } from "./components/OrderSummary";
 import ClosedNotice from "./components/ClosedNotice";
-import { formatNaira } from "@/lib/format";
 
 const HOW_IT_WORKS = [
-  { title: "Choose Your Treats", body: "Pick a ready-made pack or build your own from individual items." },
-  { title: "Make Payment", body: "Transfer the order total to the Treatsbox account." },
-  { title: "Send Your Receipt", body: "Send your payment receipt through WhatsApp for verification." },
-  { title: "Receive Your Order", body: "Your Treatsbox order will be ready on Sunday after Church service." },
+  { title: "Pick your treats", body: "Choose a pack or build your own from individual items." },
+  { title: "Make your payment", body: "Transfer the exact amount shown to the account we give you." },
+  { title: "Send your receipt", body: "Send it to us on WhatsApp so we can verify it." },
+  { title: "You're in", body: "Your order is queued and ready for Sunday, after Church service." },
 ];
 
 export default function HomePage() {
-  const { catalog, itemCount, totals } = useCart();
+  const { catalog, totals } = useCart();
   const [settings, setSettings] = useState(null);
 
   useEffect(() => {
@@ -37,119 +37,170 @@ export default function HomePage() {
     );
   }
 
+  const heroPack = catalog.packages[0];
+
   return (
     <>
       <SiteNav />
 
-      {/* HERO */}
-      <section className="relative overflow-hidden">
-        <div className="brand-blob blob-rose w-[420px] h-[420px] -top-32 -left-24 animate-blob-drift" />
-        <div className="brand-blob blob-gold w-[380px] h-[380px] -top-16 right-[-140px] animate-blob-drift-slow" />
+      {/* HERO — food first, editorial two-column composition */}
+      <section className="max-w-6xl mx-auto px-5 md:px-8 pt-10 md:pt-16 pb-16 md:pb-24">
+        <div className="grid md:grid-cols-2 gap-10 md:gap-14 items-center">
+          {/* Image first on mobile, right column on desktop */}
+          <div className="relative order-1 md:order-2">
+            <div className="brand-blob blob-cream w-[86%] h-[86%] -top-6 -right-6 animate-blob-drift" />
+            <div className="relative">
+              <FoodVisual
+                imageUrl={heroPack?.imageUrl}
+                iconName={heroPack?.image || "chickenpack"}
+                alt={heroPack?.name || "Treatsbox pack"}
+                variant="hero"
+                shapeIndex={0}
+                className="w-full aspect-square md:aspect-[4/5]"
+              />
+              {heroPack && (
+                <div className="absolute -bottom-4 left-4 md:left-6 bg-white rounded-full pl-1.5 pr-4 py-1.5 shadow-pop flex items-center gap-2">
+                  <span className="w-8 h-8 rounded-full bg-marigold/20 flex items-center justify-center text-xs font-display font-semibold text-oxblood">
+                    ★
+                  </span>
+                  <span className="text-xs font-semibold text-ink">Sunday Special · {heroPack.name}</span>
+                </div>
+              )}
+            </div>
+          </div>
 
-        <div className="relative z-10 max-w-6xl mx-auto px-5 md:px-8 pt-16 pb-12 md:pt-24 md:pb-16 text-center">
-          <p className="inline-flex items-center gap-2 font-display italic text-base text-oxblood mb-5">
-            <span className="w-6 h-px bg-marigold2" />
-            Sunday preorders, after Church service
-            <span className="w-6 h-px bg-marigold2" />
-          </p>
-          <h1 className="font-display text-5xl md:text-7xl font-semibold text-ink leading-[1.02] max-w-3xl mx-auto tracking-tight">
-            Order Your Treatsbox
-          </h1>
-          <p className="text-ink2 text-lg mt-5 max-w-md mx-auto">
-            Choose a ready-made pack or build your own — beautifully packaged, always fresh.
-          </p>
-          <Link
-            href="#order"
-            className="inline-flex mt-8 rounded-full bg-gradient-to-r from-oxblood to-oxblood2 text-white font-semibold px-8 py-4 shadow-glow hover:brightness-105 hover:-translate-y-0.5 transition-all"
-          >
-            Start Your Order
-          </Link>
+          {/* Copy */}
+          <div className="order-2 md:order-1">
+            <p className="eyebrow mb-4">Sunday Preorders</p>
+            <h1 className="font-display text-4xl sm:text-5xl md:text-[3.4rem] font-semibold text-ink leading-[1.06] tracking-tight">
+              Good food deserves a better box.
+            </h1>
+            <p className="text-ink2 text-lg mt-5 max-w-md leading-relaxed">
+              Pick a ready-made pack or create one exactly the way you want it.
+            </p>
+            <Link
+              href="#order"
+              className="inline-flex mt-8 rounded-full bg-gradient-to-r from-oxblood to-oxblood2 text-paper font-semibold px-8 py-4 shadow-glow hover:shadow-glowGold hover:-translate-y-0.5 transition-all"
+            >
+              Start Your Order
+            </Link>
+
+            <div className="mt-10 pt-8 border-t border-line max-w-md">
+              <p className="font-display italic text-lg text-ink">Made for the moments worth sharing.</p>
+              <p className="text-sm text-ink2 mt-2">
+                Samosas. Spring rolls. Puff puff. Beef. Chicken. Pick your favourites and build your box.
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* ORDER EXPERIENCE */}
-      <section id="order" className="max-w-6xl mx-auto px-5 md:px-8 pb-16 grid lg:grid-cols-[1fr_360px] gap-8">
-        <div className="min-w-0">
-          {/* Choose a pack */}
-          <div className="mb-10">
-            <p className="text-xs font-bold tracking-widest text-marigold2 uppercase mb-1">Signature Packs</p>
-            <h2 className="font-display text-2xl md:text-3xl font-semibold text-ink">Choose a Pack</h2>
-            <p className="text-ink2 text-sm mt-1 mb-4">Pick one of our ready-made Treatsbox options.</p>
-            <div className="grid sm:grid-cols-2 gap-4">
-              {catalog.packages.map((pkg) => (
-                <PackageCard key={pkg.id} pkg={pkg} />
-              ))}
-              {catalog.packages.length === 0 && (
-                <p className="text-sm text-ink2">Loading packs…</p>
-              )}
-            </div>
-          </div>
-
-          {/* Build your own */}
-          <div>
-            <p className="text-xs font-bold tracking-widest text-marigold2 uppercase mb-1">Made To Order</p>
-            <h2 className="font-display text-2xl md:text-3xl font-semibold text-ink">Build Your Own</h2>
-            <p className="text-ink2 text-sm mt-1 mb-4">Choose exactly what you want.</p>
-            <div className="grid sm:grid-cols-2 gap-3">
-              {catalog.products.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-              {catalog.products.length === 0 && (
-                <p className="text-sm text-ink2">Loading treats…</p>
-              )}
-            </div>
-          </div>
+      <section id="order" className="max-w-6xl mx-auto px-5 md:px-8 pb-16 md:pb-24">
+        <div className="text-center max-w-lg mx-auto mb-12">
+          <p className="eyebrow mb-2">Your Order</p>
+          <h2 className="font-display text-3xl md:text-4xl font-semibold text-ink">Build Your Box</h2>
+          <p className="text-ink2 mt-2">Start with one of our favourites, or make it your own.</p>
         </div>
 
-        <DesktopOrderSummary>
-          {totals.lineItems.length > 0 && (
-            <Link
-              href="/checkout"
-              className="mt-4 block text-center rounded-full bg-gradient-to-r from-oxblood to-oxblood2 text-white font-semibold py-3 text-sm shadow-glow hover:brightness-105 transition-all"
-            >
-              Continue to Checkout
-            </Link>
-          )}
-        </DesktopOrderSummary>
+        <div className="grid lg:grid-cols-[1fr_360px] gap-10 md:gap-14">
+          <div className="min-w-0">
+            {/* Choose a pack */}
+            <div className="mb-14">
+              <div className="flex items-baseline justify-between mb-6">
+                <div>
+                  <p className="eyebrow mb-1">Ready-Made</p>
+                  <h3 className="font-display text-2xl font-semibold text-ink">Pick a Pack</h3>
+                  <p className="text-ink2 text-sm mt-1">Everything already figured out.</p>
+                </div>
+              </div>
+              <div className="grid sm:grid-cols-2 gap-x-6 gap-y-10">
+                {catalog.packages.map((pkg, i) => (
+                  <PackageCard key={pkg.id} pkg={pkg} index={i} />
+                ))}
+                {catalog.packages.length === 0 && <p className="text-sm text-ink2">Loading packs…</p>}
+              </div>
+            </div>
+
+            {/* Build your own */}
+            <div>
+              <p className="eyebrow mb-1">Custom</p>
+              <h3 className="font-display text-2xl font-semibold text-ink">Make It Yours</h3>
+              <p className="text-ink2 text-sm mt-1 mb-4">Pick the treats you want — we&apos;ll take care of the rest.</p>
+              <div>
+                {catalog.products.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+                {catalog.products.length === 0 && <p className="text-sm text-ink2">Loading treats…</p>}
+              </div>
+            </div>
+          </div>
+
+          <DesktopOrderSummary>
+            {totals.lineItems.length > 0 && (
+              <Link
+                href="/checkout"
+                className="mt-4 block text-center rounded-full bg-gradient-to-r from-oxblood to-oxblood2 text-paper font-semibold py-3 text-sm shadow-glow hover:shadow-glowGold transition-all"
+              >
+                Continue to Checkout
+              </Link>
+            )}
+          </DesktopOrderSummary>
+        </div>
       </section>
 
-      {/* HOW IT WORKS */}
-      <section id="how-it-works" className="bg-paper2/60 border-y border-line">
-        <div className="max-w-6xl mx-auto px-5 md:px-8 py-16">
-          <h2 className="font-display text-2xl md:text-3xl font-semibold text-ink text-center mb-10">How It Works</h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {/* HOW IT WORKS — editorial vertical story, not four boxed cards */}
+      <section id="how-it-works" className="border-y border-line bg-paper2/50">
+        <div className="max-w-2xl mx-auto px-5 md:px-8 py-16 md:py-20">
+          <p className="eyebrow text-center mb-2">The Process</p>
+          <h2 className="font-display text-2xl md:text-3xl font-semibold text-ink text-center mb-12">How It Works</h2>
+          <div className="divide-y divide-line">
             {HOW_IT_WORKS.map((step, i) => (
-              <div key={step.title} className="bg-white rounded-xl2 shadow-card p-5">
-                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-oxblood to-oxblood2 text-white font-display text-sm font-semibold flex items-center justify-center mb-3 shadow-glow">
-                  {i + 1}
+              <div key={step.title} className="flex items-start gap-6 py-6">
+                <span className="font-display text-3xl md:text-4xl font-semibold text-marigold/60 tabular-nums shrink-0 w-10">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <div>
+                  <h3 className="font-display text-lg font-semibold text-ink">{step.title}</h3>
+                  <p className="text-sm text-ink2 mt-1 leading-relaxed">{step.body}</p>
                 </div>
-                <h3 className="font-semibold text-ink text-sm">{step.title}</h3>
-                <p className="text-sm text-ink2 mt-1 leading-relaxed">{step.body}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CONTACT / FOOTER */}
-      <footer id="contact" className="max-w-6xl mx-auto px-5 md:px-8 py-14">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+      {/* SUNDAY MOMENT — a deliberate contrast break in the page rhythm */}
+      <section className="bg-ink">
+        <div className="max-w-2xl mx-auto px-5 md:px-8 py-16 md:py-20 text-center">
+          <p className="font-display italic text-2xl md:text-3xl text-paper">See you Sunday.</p>
+          <p className="text-paper/70 mt-3 max-w-md mx-auto leading-relaxed">
+            Place your preorder and your Treatsbox will be ready to be received after Church service.
+          </p>
+        </div>
+      </section>
+
+      {/* FOOTER — simple and premium */}
+      <footer id="contact" className="max-w-6xl mx-auto px-5 md:px-8 py-12">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
           <div>
             <p className="font-display text-xl font-semibold text-ink">Treatsbox</p>
-            <p className="text-sm text-ink2 mt-1 max-w-sm">
-              Preorders close before Sunday. Orders are ready for collection after Church service.
-            </p>
+            <p className="text-sm text-ink2 mt-1">Your Sunday treat, sorted.</p>
           </div>
-          {settings?.whatsappNumber && (
-            <a
-              href={`https://wa.me/${settings.whatsappNumber}`}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 text-sm font-semibold text-oxblood underline underline-offset-4"
-            >
-              Message us on WhatsApp
-            </a>
-          )}
+          <div className="flex items-center gap-6 text-sm font-semibold text-ink">
+            <Link href="#order" className="hover:text-oxblood transition-colors">Order</Link>
+            <a href="#contact" className="hover:text-oxblood transition-colors">Contact</a>
+            {settings?.whatsappNumber && (
+              <a
+                href={`https://wa.me/${settings.whatsappNumber}`}
+                target="_blank"
+                rel="noreferrer"
+                className="hover:text-oxblood transition-colors"
+              >
+                WhatsApp
+              </a>
+            )}
+          </div>
         </div>
         <p className="text-xs text-ink2/60 mt-8">© {new Date().getFullYear()} Treatsbox. All rights reserved.</p>
       </footer>

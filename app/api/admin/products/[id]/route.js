@@ -8,7 +8,7 @@ export async function PATCH(req, { params }) {
   const product = db.data.products.find((p) => p.id === id);
   if (!product) return NextResponse.json({ error: "Product not found." }, { status: 404 });
 
-  const fields = ["name", "description", "price", "image", "active", "sortOrder", "maxQty"];
+  const fields = ["name", "description", "price", "image", "imageUrl", "active", "sortOrder", "maxQty"];
   for (const f of fields) {
     if (body[f] !== undefined) product[f] = body[f];
   }

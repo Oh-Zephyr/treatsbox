@@ -86,8 +86,8 @@ export default function OrderStatusPage() {
             <path d="M20 6L9 17l-5-5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </div>
-        <h1 className="font-display text-3xl md:text-4xl font-semibold text-ink">
-          {isFresh ? "You're In The Queue!" : "Order Status"}
+        <h1 className="font-display text-4xl md:text-5xl font-semibold text-ink">
+          {isFresh ? "You're In." : "Order Status"}
         </h1>
         <p className="text-ink2 mt-2">
           {isFresh

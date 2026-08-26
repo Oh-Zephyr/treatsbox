@@ -19,6 +19,7 @@ export async function POST(req) {
     description: body.description || "",
     price: Number(body.price),
     image: body.image || "pack",
+    imageUrl: body.imageUrl || null,
     active: body.active !== false,
     contents: Array.isArray(body.contents) ? body.contents : []
   };

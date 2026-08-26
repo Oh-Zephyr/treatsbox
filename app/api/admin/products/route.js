@@ -20,6 +20,7 @@ export async function POST(req) {
     description: body.description || "",
     price: Number(body.price),
     image: body.image || "food",
+    imageUrl: body.imageUrl || null,
     active: body.active !== false,
     sortOrder: body.sortOrder != null ? Number(body.sortOrder) : db.data.products.length + 1,
     maxQty: body.maxQty ? Number(body.maxQty) : null

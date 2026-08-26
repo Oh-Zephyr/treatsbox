@@ -16,28 +16,23 @@ html {
 }
 
 body {
-  background-color: #FBF1E9;
-  color: #2B1526;
+  background-color: #FBF3E7;
+  color: #2B1B12;
 }
 
-/* Soft drifting gradient blobs used behind the hero — the fashion-forward
-   "signature" backdrop referenced throughout the app. */
+/* A single soft organic shape behind hero imagery — restrained, not decorative clutter */
 .brand-blob {
   position: absolute;
-  border-radius: 9999px;
-  filter: blur(60px);
+  border-radius: 63% 37% 54% 46% / 55% 48% 52% 45%;
+  filter: blur(2px);
   pointer-events: none;
   z-index: 0;
-  opacity: 0.55;
 }
-.brand-blob.blob-rose {
-  background: radial-gradient(circle at 30% 30%, #E893AF, transparent 70%);
-}
-.brand-blob.blob-gold {
-  background: radial-gradient(circle at 60% 40%, #F0CE8E, transparent 70%);
+.brand-blob.blob-cream {
+  background: linear-gradient(135deg, #F1E3C8, #EAD4A6);
 }
 
-/* Perforated / die-cut edge used on the queue ticket — the app's signature motif */
+/* Perforated / die-cut edge on the queue ticket — the app's signature motif */
 .ticket-edge {
   position: relative;
 }
@@ -48,7 +43,7 @@ body {
   right: 0;
   top: -1px;
   height: 1px;
-  background-image: radial-gradient(circle, #FBF1E9 2.5px, transparent 2.6px);
+  background-image: radial-gradient(circle, #FBF3E7 2.5px, transparent 2.6px);
   background-size: 14px 3px;
   background-repeat: repeat-x;
 }
@@ -58,15 +53,13 @@ body {
   width: 24px;
   height: 24px;
   border-radius: 9999px;
-  background: #FBF1E9;
+  background: #FBF3E7;
 }
 
-/* Thin gold-foil accent stripe used along the top of premium cards */
+/* Thin gold accent stripe used along the top of premium cards / the ticket */
 .foil-edge {
-  height: 4px;
-  background: linear-gradient(90deg, #D8A84E, #EFCE8B, #C13868, #D8A84E);
-  background-size: 220% 100%;
-  animation: shimmer 5s linear infinite;
+  height: 3px;
+  background: linear-gradient(90deg, #C8963E, #E9C983, #C8963E);
 }
 
 .tabular-nums {
@@ -75,29 +68,59 @@ body {
 
 .tb-input {
   width: 100%;
-  border: 1px solid #EEDCD1;
+  border: 1px solid #E6D6BE;
   background: #FFFFFF;
   border-radius: 1rem;
   padding: 0.8rem 1rem;
   font-size: 0.95rem;
-  color: #2B1526;
+  color: #2B1B12;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 .tb-input::placeholder {
-  color: #74576A66;
+  color: #6B564566;
 }
 .tb-input:focus {
   outline: none;
-  border-color: #C13868;
-  box-shadow: 0 0 0 3px rgba(193, 56, 104, 0.14);
+  border-color: #C8963E;
+  box-shadow: 0 0 0 3px rgba(200, 150, 62, 0.16);
 }
 
-/* Small floating "reaction" — heart/sparkle that pops up on add-to-order */
+/* Editorial field style for the customer-facing ordering flow — a quiet
+   underline field rather than a boxed SaaS input. */
+.tb-field {
+  width: 100%;
+  border: none;
+  border-bottom: 1.5px solid #E6D6BE;
+  background: transparent;
+  border-radius: 0;
+  padding: 0.65rem 0.1rem;
+  font-size: 1rem;
+  color: #2B1B12;
+  transition: border-color 0.15s ease;
+}
+.tb-field::placeholder {
+  color: #6B564566;
+}
+.tb-field:focus {
+  outline: none;
+  border-bottom-color: #C8963E;
+}
+
+.eyebrow {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #A97A2E;
+}
+
+/* Restrained "added" reaction — a single soft sparkle, not a burst of emoji */
 .reaction-pop {
   position: absolute;
   pointer-events: none;
-  font-size: 1.1rem;
-  animation: float-up-fade 0.9s ease-out forwards;
+  font-size: 0.95rem;
+  color: #C8963E;
+  animation: sparkle-up 0.8s ease-out forwards;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -109,7 +132,7 @@ body {
 }
 
 :focus-visible {
-  outline: 2px solid #C13868;
+  outline: 2px solid #C8963E;
   outline-offset: 2px;
 }
 
@@ -118,6 +141,6 @@ body {
   height: 10px;
 }
 ::-webkit-scrollbar-thumb {
-  background: #EEDCD1;
+  background: #E6D6BE;
   border-radius: 8px;
 }

@@ -5,7 +5,7 @@ import { formatNaira } from "@/lib/format";
 import FoodIcon from "../../components/FoodIcon";
 
 const ICON_OPTIONS = ["beefpack", "chickenpack", "pack", "food"];
-const EMPTY = { name: "", description: "", price: "", image: "pack", active: true, contents: [] };
+const EMPTY = { name: "", description: "", price: "", image: "pack", imageUrl: "", active: true, contents: [] };
 
 export default function AdminPackagesPage() {
   const [packages, setPackages] = useState([]);
@@ -42,6 +42,7 @@ export default function AdminPackagesPage() {
       description: form.description,
       price: Number(form.price),
       image: form.image,
+      imageUrl: form.imageUrl?.trim() || null,
       active: form.active,
       contents: form.contents,
     };
@@ -98,6 +99,10 @@ export default function AdminPackagesPage() {
             <input className="tb-input" placeholder="Name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} />
             <input className="tb-input" placeholder="Description" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} />
             <input className="tb-input" placeholder="Price (₦)" type="number" value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })} />
+            <div>
+              <input className="tb-input" placeholder="Photo URL (optional — leave blank to use icon)" value={form.imageUrl || ""} onChange={(e) => setForm({ ...form, imageUrl: e.target.value })} />
+              <p className="text-xs text-ink2 mt-1">Paste a link to a hosted photo. Without one, the icon below is shown instead.</p>
+            </div>
 
             <div>
               <span className="text-xs font-semibold text-ink2 block mb-1.5">Icon</span>

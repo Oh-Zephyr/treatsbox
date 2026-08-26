@@ -5,7 +5,7 @@ import { formatNaira } from "@/lib/format";
 import FoodIcon from "../../components/FoodIcon";
 
 const ICON_OPTIONS = ["samosa", "springroll", "puffpuff", "beef", "chicken", "pouch", "box", "food"];
-const EMPTY = { name: "", description: "", price: "", image: "food", active: true, sortOrder: "", maxQty: "" };
+const EMPTY = { name: "", description: "", price: "", image: "food", imageUrl: "", active: true, sortOrder: "", maxQty: "" };
 
 export default function AdminProductsPage() {
   const [products, setProducts] = useState([]);
@@ -30,6 +30,7 @@ export default function AdminProductsPage() {
       description: form.description,
       price: Number(form.price),
       image: form.image,
+      imageUrl: form.imageUrl?.trim() || null,
       active: form.active,
       sortOrder: form.sortOrder ? Number(form.sortOrder) : undefined,
       maxQty: form.maxQty ? Number(form.maxQty) : null,
@@ -84,6 +85,10 @@ export default function AdminProductsPage() {
             <input className="tb-input" placeholder="Price (₦)" type="number" value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })} />
             <input className="tb-input" placeholder="Max quantity per order (optional)" type="number" value={form.maxQty} onChange={(e) => setForm({ ...form, maxQty: e.target.value })} />
             <input className="tb-input" placeholder="Display order" type="number" value={form.sortOrder} onChange={(e) => setForm({ ...form, sortOrder: e.target.value })} />
+            <div>
+              <input className="tb-input" placeholder="Photo URL (optional — leave blank to use icon)" value={form.imageUrl || ""} onChange={(e) => setForm({ ...form, imageUrl: e.target.value })} />
+              <p className="text-xs text-ink2 mt-1">Paste a link to a hosted photo. Without one, the icon below is shown instead.</p>
+            </div>
             <div>
               <span className="text-xs font-semibold text-ink2 block mb-1.5">Icon</span>
               <div className="flex flex-wrap gap-2">

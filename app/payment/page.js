@@ -82,8 +82,9 @@ export default function PaymentPage() {
     <>
       <FlowHeader step={4} />
       <main className="max-w-lg mx-auto px-5 md:px-8 py-10">
-        <h1 className="font-display text-2xl font-semibold text-ink mb-1">Payment</h1>
-        <p className="text-sm text-ink2 mb-6">Transfer the exact amount below, then confirm you&apos;ve paid.</p>
+        <p className="eyebrow mb-2">One Last Step</p>
+        <h1 className="font-display text-3xl font-semibold text-ink mb-1">Payment</h1>
+        <p className="text-sm text-ink2 mb-8">Transfer the exact amount below, then confirm you&apos;ve paid.</p>
 
         <div className="bg-white rounded-xl2 shadow-card p-5 mb-5">
           <dl className="space-y-3 text-sm">
@@ -118,7 +119,7 @@ export default function PaymentPage() {
         <button
           onClick={handleIHavePaid}
           disabled={submitting}
-          className="w-full rounded-full bg-oxblood text-white font-semibold py-4 shadow-pop hover:bg-oxblood/90 transition-colors disabled:opacity-60"
+          className="w-full rounded-full bg-gradient-to-r from-oxblood to-oxblood2 text-paper font-semibold py-4 shadow-glow hover:shadow-glowGold transition-all disabled:opacity-60"
         >
           {submitting ? "Placing your order…" : "I Have Paid"}
         </button>

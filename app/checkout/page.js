@@ -48,8 +48,9 @@ export default function CheckoutPage() {
       <FlowHeader step={2} />
       <main className="max-w-3xl mx-auto px-5 md:px-8 py-10 grid md:grid-cols-[1fr_280px] gap-8">
         <form onSubmit={handleContinue} className="min-w-0">
-          <h1 className="font-display text-2xl font-semibold text-ink mb-1">Your Details</h1>
-          <p className="text-sm text-ink2 mb-6">Just enough to confirm and reach you about your order.</p>
+          <p className="eyebrow mb-2">Almost There</p>
+          <h1 className="font-display text-3xl font-semibold text-ink mb-1">Your Details</h1>
+          <p className="text-sm text-ink2 mb-8">Just enough to confirm and reach you about your order.</p>
 
           <div className="space-y-4">
             <Field label="Full Name" error={errors.name}>
@@ -57,7 +58,7 @@ export default function CheckoutPage() {
                 value={form.name || ""}
                 onChange={update("name")}
                 placeholder="e.g. Ada Obi"
-                className="tb-input"
+                className="tb-field"
                 autoComplete="name"
               />
             </Field>
@@ -67,7 +68,7 @@ export default function CheckoutPage() {
                 onChange={update("phone")}
                 placeholder="080..."
                 inputMode="tel"
-                className="tb-input"
+                className="tb-field"
                 autoComplete="tel"
               />
             </Field>
@@ -77,7 +78,7 @@ export default function CheckoutPage() {
                 onChange={update("whatsapp")}
                 placeholder="080... (for your receipt)"
                 inputMode="tel"
-                className="tb-input"
+                className="tb-field"
               />
             </Field>
             <Field label="Email" error={errors.email}>
@@ -86,7 +87,7 @@ export default function CheckoutPage() {
                 onChange={update("email")}
                 placeholder="you@email.com"
                 type="email"
-                className="tb-input"
+                className="tb-field"
                 autoComplete="email"
               />
             </Field>
@@ -96,14 +97,14 @@ export default function CheckoutPage() {
                 onChange={update("notes")}
                 placeholder="Anything we should know?"
                 rows={3}
-                className="tb-input resize-none"
+                className="tb-field resize-none"
               />
             </Field>
           </div>
 
           <button
             type="submit"
-            className="mt-7 w-full md:w-auto rounded-full bg-oxblood text-white font-semibold px-7 py-3.5 shadow-pop hover:bg-oxblood/90 transition-colors"
+            className="mt-9 w-full md:w-auto rounded-full bg-gradient-to-r from-oxblood to-oxblood2 text-paper font-semibold px-8 py-4 shadow-glow hover:shadow-glowGold transition-all"
           >
             Continue to Review
           </button>
@@ -122,7 +123,7 @@ export default function CheckoutPage() {
 function Field({ label, error, children }) {
   return (
     <label className="block">
-      <span className="text-sm font-semibold text-ink mb-1.5 block">{label}</span>
+      <span className="eyebrow mb-1.5 block">{label}</span>
       {children}
       {error && <span className="text-xs text-alert mt-1 block">{error}</span>}
     </label>

@@ -5,13 +5,13 @@ import Link from "next/link";
 import { useCart } from "./CartContext";
 import { formatNaira } from "@/lib/format";
 import QtyStepper from "./QtyStepper";
-import FoodIcon from "./FoodIcon";
+import FoodVisual from "./FoodVisual";
 
-function lineIcon(item, catalog) {
+function lineVisual(item, catalog) {
   if (item.itemType === "package") {
-    return catalog.packages.find((p) => p.id === item.refId)?.image;
+    return catalog.packages.find((p) => p.id === item.refId);
   }
-  return catalog.products.find((p) => p.id === item.refId)?.image;
+  return catalog.products.find((p) => p.id === item.refId);
 }
 
 function SummaryLines({ compact }) {
@@ -33,7 +33,7 @@ function SummaryLines({ compact }) {
     <div className="divide-y divide-line">
       {totals.lineItems.map((item) => (
         <div key={`${item.itemType}:${item.refId}`} className="flex items-center gap-3 py-3">
-          <FoodIcon name={lineIcon(item, catalog)} className="w-10 h-10 shrink-0" />
+          <FoodVisual imageUrl={lineVisual(item, catalog)?.imageUrl} iconName={lineVisual(item, catalog)?.image} alt={item.itemName} variant="row" className="w-11 h-11 shrink-0" />
           <div className="flex-1 min-w-0">
             <p className="text-sm font-semibold text-ink truncate">{item.itemName}</p>
             <p className="text-xs text-ink2">{formatNaira(item.unitPrice)} each</p>
