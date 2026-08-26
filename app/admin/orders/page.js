@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import Link from "next/link";
 import StatusBadge from "../../components/StatusBadge";
 import { formatNaira, formatDate } from "@/lib/format";
@@ -12,12 +12,15 @@ const RECEIPT_STATUSES = ["Not Submitted", "Submitted"];
 export default function AdminOrdersPage() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [hasLoadedOnce, setHasLoadedOnce] = useState(false);
   const [q, setQ] = useState("");
   const [orderStatus, setOrderStatus] = useState("");
   const [paymentStatus, setPaymentStatus] = useState("");
   const [receiptStatus, setReceiptStatus] = useState("");
+  const requestIdRef = useRef(0);
 
   const load = useCallback(async () => {
+    const requestId = ++requestIdRef.current;
     setLoading(true);
     const params = new URLSearchParams();
     if (q) params.set("q", q);
@@ -26,8 +29,13 @@ export default function AdminOrdersPage() {
     if (receiptStatus) params.set("receiptStatus", receiptStatus);
     const res = await fetch(`/api/admin/orders?${params.toString()}`);
     const data = await res.json();
+    // A faster, more recent request may have already resolved while this
+    // one was in flight (e.g. typing quickly on a slow connection) --
+    // discard this response rather than let stale results flash in.
+    if (requestId !== requestIdRef.current) return;
     setOrders(data.orders || []);
     setLoading(false);
+    setHasLoadedOnce(true);
   }, [q, orderStatus, paymentStatus, receiptStatus]);
 
   useEffect(() => {
@@ -60,12 +68,24 @@ export default function AdminOrdersPage() {
         </select>
       </div>
 
-      {loading ? (
-        <p className="text-sm text-ink2">Loading orders…</p>
+      {loading && !hasLoadedOnce ? (
+        <div className="space-y-3">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <div key={i} className="bg-white rounded-xl2 shadow-card p-4 animate-pulse">
+              <div className="flex justify-between">
+                <div className="space-y-1.5 flex-1">
+                  <div className="h-3 bg-paper2 rounded w-24" />
+                  <div className="h-3 bg-paper2 rounded w-40" />
+                </div>
+                <div className="h-3 bg-paper2 rounded w-16" />
+              </div>
+            </div>
+          ))}
+        </div>
       ) : orders.length === 0 ? (
         <p className="text-sm text-ink2 bg-white rounded-xl2 shadow-card p-8 text-center">No orders yet.</p>
       ) : (
-        <>
+        <div className={`transition-opacity ${loading ? "opacity-50" : "opacity-100"}`}>
           {/* Desktop table */}
           <div className="hidden md:block bg-white rounded-xl2 shadow-card overflow-hidden">
             <table className="w-full text-sm">
@@ -114,7 +134,7 @@ export default function AdminOrdersPage() {
               </Link>
             ))}
           </div>
-        </>
+        </div>
       )}
     </div>
   );

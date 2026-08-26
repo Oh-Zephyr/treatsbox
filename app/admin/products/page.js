@@ -9,13 +9,17 @@ const EMPTY = { name: "", description: "", price: "", image: "food", imageUrl: "
 
 export default function AdminProductsPage() {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(null);
   const [form, setForm] = useState(EMPTY);
   const [saving, setSaving] = useState(false);
 
-  const load = () => fetch("/api/admin/products").then((r) => r.json()).then((d) => setProducts(d.products || []));
-
-  useEffect(() => { load(); }, []);
+  useEffect(() => {
+    fetch("/api/admin/products")
+      .then((r) => r.json())
+      .then((d) => setProducts(d.products || []))
+      .finally(() => setLoading(false));
+  }, []);
 
   const startNew = () => { setEditing("new"); setForm(EMPTY); };
   const startEdit = (p) => {
@@ -35,19 +39,26 @@ export default function AdminProductsPage() {
       sortOrder: form.sortOrder ? Number(form.sortOrder) : undefined,
       maxQty: form.maxQty ? Number(form.maxQty) : null,
     };
-    if (editing === "new") {
-      await fetch("/api/admin/products", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
-    } else {
-      await fetch(`/api/admin/products/${editing}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+    try {
+      if (editing === "new") {
+        const res = await fetch("/api/admin/products", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+        const data = await res.json();
+        if (res.ok) setProducts((prev) => [...prev, data.product].sort((a, b) => a.sortOrder - b.sortOrder));
+      } else {
+        const res = await fetch(`/api/admin/products/${editing}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+        const data = await res.json();
+        if (res.ok) setProducts((prev) => prev.map((p) => (p.id === editing ? data.product : p)).sort((a, b) => a.sortOrder - b.sortOrder));
+      }
+      setEditing(null);
+    } finally {
+      setSaving(false);
     }
-    await load();
-    setSaving(false);
-    setEditing(null);
   };
 
   const toggleActive = async (p) => {
-    await fetch(`/api/admin/products/${p.id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ active: !p.active }) });
-    load();
+    const res = await fetch(`/api/admin/products/${p.id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ active: !p.active }) });
+    const data = await res.json();
+    if (res.ok) setProducts((prev) => prev.map((x) => (x.id === p.id ? data.product : x)));
   };
 
   return (
@@ -58,7 +69,20 @@ export default function AdminProductsPage() {
       </div>
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {products.map((p) => (
+        {loading &&
+          Array.from({ length: 6 }).map((_, i) => (
+            <div key={i} className="bg-white rounded-xl2 shadow-card p-4 animate-pulse">
+              <div className="flex items-center gap-3">
+                <div className="w-11 h-11 rounded-full bg-paper2" />
+                <div className="flex-1 space-y-1.5">
+                  <div className="h-3 bg-paper2 rounded w-2/3" />
+                  <div className="h-3 bg-paper2 rounded w-1/3" />
+                </div>
+              </div>
+            </div>
+          ))}
+        {!loading &&
+          products.map((p) => (
           <div key={p.id} className={`bg-white rounded-xl2 shadow-card p-4 ${!p.active ? "opacity-50" : ""}`}>
             <div className="flex items-center gap-3">
               <FoodIcon name={p.image} className="w-11 h-11 shrink-0" />

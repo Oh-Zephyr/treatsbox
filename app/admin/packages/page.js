@@ -10,16 +10,22 @@ const EMPTY = { name: "", description: "", price: "", image: "pack", imageUrl: "
 export default function AdminPackagesPage() {
   const [packages, setPackages] = useState([]);
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(null);
   const [form, setForm] = useState(EMPTY);
   const [saving, setSaving] = useState(false);
 
-  const load = () => {
-    fetch("/api/admin/packages").then((r) => r.json()).then((d) => setPackages(d.packages || []));
-    fetch("/api/admin/products").then((r) => r.json()).then((d) => setProducts(d.products || []));
-  };
-
-  useEffect(() => { load(); }, []);
+  useEffect(() => {
+    Promise.all([
+      fetch("/api/admin/packages").then((r) => r.json()),
+      fetch("/api/admin/products").then((r) => r.json()),
+    ])
+      .then(([pkgData, prodData]) => {
+        setPackages(pkgData.packages || []);
+        setProducts(prodData.products || []);
+      })
+      .finally(() => setLoading(false));
+  }, []);
 
   const startNew = () => { setEditing("new"); setForm(EMPTY); };
   const startEdit = (p) => { setEditing(p.id); setForm({ ...p, price: String(p.price) }); };
@@ -46,19 +52,26 @@ export default function AdminPackagesPage() {
       active: form.active,
       contents: form.contents,
     };
-    if (editing === "new") {
-      await fetch("/api/admin/packages", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
-    } else {
-      await fetch(`/api/admin/packages/${editing}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+    try {
+      if (editing === "new") {
+        const res = await fetch("/api/admin/packages", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+        const data = await res.json();
+        if (res.ok) setPackages((prev) => [...prev, data.package]);
+      } else {
+        const res = await fetch(`/api/admin/packages/${editing}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+        const data = await res.json();
+        if (res.ok) setPackages((prev) => prev.map((p) => (p.id === editing ? data.package : p)));
+      }
+      setEditing(null);
+    } finally {
+      setSaving(false);
     }
-    load();
-    setSaving(false);
-    setEditing(null);
   };
 
   const toggleActive = async (p) => {
-    await fetch(`/api/admin/packages/${p.id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ active: !p.active }) });
-    load();
+    const res = await fetch(`/api/admin/packages/${p.id}`, { method: "PATCH", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ active: !p.active }) });
+    const data = await res.json();
+    if (res.ok) setPackages((prev) => prev.map((x) => (x.id === p.id ? data.package : x)));
   };
 
   return (
@@ -69,7 +82,20 @@ export default function AdminPackagesPage() {
       </div>
 
       <div className="grid sm:grid-cols-2 gap-4">
-        {packages.map((p) => (
+        {loading &&
+          Array.from({ length: 4 }).map((_, i) => (
+            <div key={i} className="bg-white rounded-xl2 shadow-card p-4 animate-pulse">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-full bg-paper2" />
+                <div className="flex-1 space-y-1.5">
+                  <div className="h-3 bg-paper2 rounded w-2/3" />
+                  <div className="h-3 bg-paper2 rounded w-1/3" />
+                </div>
+              </div>
+            </div>
+          ))}
+        {!loading &&
+          packages.map((p) => (
           <div key={p.id} className={`bg-white rounded-xl2 shadow-card p-4 ${!p.active ? "opacity-50" : ""}`}>
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-3">
