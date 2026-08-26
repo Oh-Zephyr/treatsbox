@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "Manrope", system-ui, -apple-system, sans-serif;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #F7EFDD;
+  color: #241B14;
+}
+
+/* Perforated / die-cut edge used on the queue ticket — the app's signature motif */
+.ticket-edge {
+  position: relative;
+}
+.ticket-edge::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -1px;
+  height: 1px;
+  background-image: radial-gradient(circle, #F7EFDD 2.5px, transparent 2.6px);
+  background-size: 14px 3px;
+  background-repeat: repeat-x;
+}
+.ticket-notch {
+  position: absolute;
+  top: -12px;
+  width: 24px;
+  height: 24px;
+  border-radius: 9999px;
+  background: #F7EFDD;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+.tb-input {
+  width: 100%;
+  border: 1px solid #E4D6B8;
+  background: #FFFFFF;
+  border-radius: 0.9rem;
+  padding: 0.8rem 1rem;
+  font-size: 0.95rem;
+  color: #241B14;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.tb-input::placeholder {
+  color: #4A3A2A66;
+}
+.tb-input:focus {
+  outline: none;
+  border-color: #8C3B2E;
+  box-shadow: 0 0 0 3px rgba(140, 59, 46, 0.12);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid #8C3B2E;
+  outline-offset: 2px;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: #E4D6B8;
+  border-radius: 8px;
+}
