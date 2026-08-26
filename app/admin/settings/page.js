@@ -63,6 +63,19 @@ export default function AdminSettingsPage() {
         </Field>
 
         <Field label="Business Name"><input className="tb-input" value={settings.businessName} onChange={set("businessName")} /></Field>
+
+        <Field label="Logo URL">
+          <div className="flex items-center gap-3">
+            {settings.logoUrl && (
+              /* eslint-disable-next-line @next/next/no-img-element */
+              <img src={settings.logoUrl} alt="Logo preview" className="h-10 w-auto rounded border border-line bg-white p-1" />
+            )}
+            <input className="tb-input flex-1" placeholder="https://... (leave blank to use the default mark)" value={settings.logoUrl || ""} onChange={set("logoUrl")} />
+          </div>
+          <p className="text-xs text-ink2 mt-1">
+            Shown in the site header and checkout pages. The admin sidebar icon and browser favicon keep the default mark either way, since those need a small square icon.
+          </p>
+        </Field>
         <Field label="Bank Name"><input className="tb-input" value={settings.bankName} onChange={set("bankName")} /></Field>
         <Field label="Account Name"><input className="tb-input" value={settings.accountName} onChange={set("accountName")} /></Field>
         <Field label="Account Number"><input className="tb-input" value={settings.accountNumber} onChange={set("accountNumber")} /></Field>

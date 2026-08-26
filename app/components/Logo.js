@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
 // The Treatsbox mark: a ribbon-wrapped gift box with a bow — ties the name
@@ -27,8 +28,28 @@ export function LogoMark({ className = "w-9 h-9" }) {
 }
 
 export default function Logo({ href = "/", size = "md", className = "" }) {
+  const [logoUrl, setLogoUrl] = useState(null);
+
+  useEffect(() => {
+    fetch("/api/settings")
+      .then((r) => r.json())
+      .then((d) => setLogoUrl(d.logoUrl || null))
+      .catch(() => {});
+  }, []);
+
   const textSize = size === "sm" ? "text-lg" : "text-xl";
   const markSize = size === "sm" ? "w-7 h-7" : "w-9 h-9";
+  const imgHeight = size === "sm" ? "h-7" : "h-9";
+
+  if (logoUrl) {
+    return (
+      <Link href={href} className={`inline-flex items-center ${className}`}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={logoUrl} alt="Treatsbox" className={`${imgHeight} w-auto`} />
+      </Link>
+    );
+  }
+
   return (
     <Link href={href} className={`inline-flex items-center gap-2 ${className}`}>
       <LogoMark className={markSize} />

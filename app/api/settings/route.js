@@ -17,6 +17,7 @@ export async function GET() {
     whatsappNumber: s.whatsappNumber,
     fulfillmentMessage: s.fulfillmentMessage,
     nextPreorderDate: s.nextPreorderDate,
+    logoUrl: s.logoUrl,
     acceptingOrders: s.acceptingOrders && !capacityReached,
     cutoffAt: s.cutoffAt,
     bankName: s.bankName,
