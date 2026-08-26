@@ -3,6 +3,8 @@ import { NextResponse } from "next/server";
 export const dynamic = "force-dynamic";
 import { getDb } from "@/lib/db";
 import { computeOrderTotals, nextOrderNumber, nextQueuePosition, newOrderId } from "@/lib/orders";
+import { sendOrderConfirmationEmail } from "@/lib/email";
+import { formatNaira } from "@/lib/format";
 
 // Customer creates an order the moment they click "I Have Paid".
 export async function POST(req) {
@@ -89,6 +91,16 @@ export async function POST(req) {
 
     db.data.orders.push(order);
     await db.write();
+
+    // Best-effort: the order is already saved and queued regardless of
+    // whether this succeeds. Never let an email failure affect the order
+    // response -- caught and logged, not thrown, so a Resend outage or
+    // misconfiguration can't turn a successful order into a failed request.
+    try {
+      await sendOrderConfirmationEmail(order, formatNaira);
+    } catch (err) {
+      console.error("Order confirmation email threw unexpectedly:", err);
+    }
 
     return NextResponse.json({ order }, { status: 201 });
   } catch (err) {
