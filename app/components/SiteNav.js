@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useCart } from "./CartContext";
 import { formatNaira } from "@/lib/format";
+import Logo from "./Logo";
 
 export default function SiteNav() {
   const { totals, itemCount } = useCart();
@@ -10,9 +11,7 @@ export default function SiteNav() {
   return (
     <header className="sticky top-0 z-40 bg-paper/90 backdrop-blur border-b border-line">
       <div className="max-w-6xl mx-auto px-5 md:px-8 h-16 flex items-center justify-between">
-        <Link href="/" className="font-display text-xl font-semibold text-ink tracking-tight">
-          Treatsbox
-        </Link>
+        <Logo />
         <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-ink2">
           <Link href="/order" className="hover:text-ink transition-colors">Order</Link>
           <a href="/#how-it-works" className="hover:text-ink transition-colors">How It Works</a>

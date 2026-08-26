@@ -3,6 +3,7 @@
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 import { useState } from "react";
+import { LogoMark } from "../components/Logo";
 
 const NAV = [
   { href: "/admin", label: "Dashboard", icon: "grid" },
@@ -46,7 +47,10 @@ export default function AdminLayout({ children }) {
     <div className="min-h-screen bg-paper2/40 flex">
       {/* Desktop sidebar */}
       <aside className="hidden md:flex flex-col w-60 shrink-0 bg-white border-r border-line px-4 py-6">
-        <p className="font-display text-lg font-semibold text-ink px-2 mb-8">Treatsbox <span className="text-ink2 font-body text-xs font-normal">Admin</span></p>
+        <p className="font-display text-lg font-semibold text-ink px-2 mb-8 flex items-center gap-2">
+          <LogoMark className="w-6 h-6" />
+          Treatsbox <span className="text-ink2 font-body text-xs font-normal">Admin</span>
+        </p>
         <nav className="space-y-1 flex-1">
           {NAV.map((item) => {
             const active = item.href === "/admin" ? pathname === "/admin" : pathname.startsWith(item.href);
@@ -74,7 +78,10 @@ export default function AdminLayout({ children }) {
 
       {/* Mobile top bar */}
       <div className="md:hidden fixed top-0 inset-x-0 z-40 bg-white border-b border-line flex items-center justify-between px-4 h-14">
-        <p className="font-display font-semibold text-ink">Treatsbox Admin</p>
+        <p className="font-display font-semibold text-ink flex items-center gap-1.5">
+          <LogoMark className="w-5 h-5" />
+          Treatsbox Admin
+        </p>
         <button onClick={() => setMobileOpen(true)} className="p-2 -mr-2 text-ink2" aria-label="Open menu">
           <Icon name="list" className="w-5 h-5" />
         </button>

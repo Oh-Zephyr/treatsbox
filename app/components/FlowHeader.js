@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import Logo from "./Logo";
 
 const STEPS = ["Choose", "Details", "Review", "Payment", "Done"];
 
@@ -8,9 +8,7 @@ export default function FlowHeader({ step }) {
   return (
     <header className="sticky top-0 z-40 bg-paper/90 backdrop-blur border-b border-line">
       <div className="max-w-3xl mx-auto px-5 md:px-8 h-16 flex items-center justify-between">
-        <Link href="/" className="font-display text-lg font-semibold text-ink tracking-tight">
-          Treatsbox
-        </Link>
+        <Logo size="sm" />
         <div className="hidden sm:flex items-center gap-2">
           {STEPS.map((label, i) => {
             const n = i + 1;

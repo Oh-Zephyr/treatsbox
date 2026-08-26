@@ -2,6 +2,7 @@
 
 import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { LogoMark } from "../../components/Logo";
 
 function LoginForm() {
   const router = useRouter();
@@ -38,6 +39,7 @@ function LoginForm() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-paper px-5">
       <div className="w-full max-w-sm">
+        <LogoMark className="w-10 h-10 mx-auto mb-3" />
         <p className="font-display text-2xl font-semibold text-ink text-center mb-1">Treatsbox</p>
         <p className="text-sm text-ink2 text-center mb-8">Admin sign in</p>
 
