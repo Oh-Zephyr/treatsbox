@@ -87,16 +87,12 @@ export async function POST(req) {
     return NextResponse.json({ order }, { status: 201 });
   } catch (err) {
     // Surface a real message + server-side log instead of a bare 500, so a
-    // storage failure (e.g. a read-only filesystem on some hosts) is
-    // diagnosable instead of just "something went wrong" with no trace.
+    // storage failure (e.g. a read-only filesystem or database issue) is
+    // diagnosable from server logs instead of just "something went wrong"
+    // with no trace.
     console.error("Failed to create order:", err);
     return NextResponse.json(
-      {
-        error: "Something went wrong while submitting your order. Please try again, or contact us on WhatsApp if it keeps happening.",
-        // TEMPORARY diagnostic detail — remove once the underlying cause is
-        // confirmed fixed. Not sensitive: no credentials or customer data.
-        detail: `${err?.code ? `[${err.code}] ` : ""}${err?.message || String(err)}`
-      },
+      { error: "Something went wrong while submitting your order. Please try again, or contact us on WhatsApp if it keeps happening." },
       { status: 500 }
     );
   }
