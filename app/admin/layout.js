@@ -8,7 +8,7 @@ import { LogoMark } from "../components/Logo";
 const NAV = [
   { href: "/admin", label: "Dashboard", icon: "grid" },
   { href: "/admin/orders", label: "Orders", icon: "list" },
-  { href: "/admin/queue", label: "Sunday Queue", icon: "queue" },
+  { href: "/admin/queue", label: "Order Queue", icon: "queue" },
   { href: "/admin/packages", label: "Packages", icon: "box" },
   { href: "/admin/products", label: "Products", icon: "tag" },
   { href: "/admin/settings", label: "Settings", icon: "gear" },

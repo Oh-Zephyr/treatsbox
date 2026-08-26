@@ -14,7 +14,7 @@ export async function PATCH(req) {
   const s = db.data.settings;
   const fields = [
     "businessName", "bankName", "accountName", "accountNumber", "whatsappNumber",
-    "fulfillmentMessage", "acceptingOrders", "maximumOrders", "cutoffAt"
+    "fulfillmentMessage", "nextPreorderDate", "acceptingOrders", "maximumOrders", "cutoffAt"
   ];
   for (const f of fields) {
     if (body[f] !== undefined) s[f] = body[f];

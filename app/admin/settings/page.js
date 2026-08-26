@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { formatWeekdayDate } from "@/lib/format";
 
 export default function AdminSettingsPage() {
   const [settings, setSettings] = useState(null);
@@ -36,7 +37,7 @@ export default function AdminSettingsPage() {
         <div className="flex items-center justify-between bg-paper2/50 rounded-xl px-4 py-3">
           <div>
             <p className="text-sm font-semibold text-ink">Accept New Orders</p>
-            <p className="text-xs text-ink2">Turn off to close preorders for this Sunday.</p>
+            <p className="text-xs text-ink2">Turn off to close preorders for the current cycle.</p>
           </div>
           <button
             onClick={() => setSettings({ ...settings, acceptingOrders: !settings.acceptingOrders })}
@@ -46,13 +47,29 @@ export default function AdminSettingsPage() {
           </button>
         </div>
 
+        <Field label="Next Preorder Date">
+          <input
+            className="tb-input"
+            type="date"
+            value={settings.nextPreorderDate || ""}
+            onChange={set("nextPreorderDate")}
+          />
+          <p className="text-xs text-ink2 mt-1">
+            {settings.nextPreorderDate
+              ? `Shown to customers as: ${formatWeekdayDate(settings.nextPreorderDate)}`
+              : "Not set — the site will use generic \"ready soon\" wording until you set a date."}
+            {" "}Update this each time you open a new preorder cycle — it doesn&apos;t have to be the same day every time.
+          </p>
+        </Field>
+
         <Field label="Business Name"><input className="tb-input" value={settings.businessName} onChange={set("businessName")} /></Field>
         <Field label="Bank Name"><input className="tb-input" value={settings.bankName} onChange={set("bankName")} /></Field>
         <Field label="Account Name"><input className="tb-input" value={settings.accountName} onChange={set("accountName")} /></Field>
         <Field label="Account Number"><input className="tb-input" value={settings.accountNumber} onChange={set("accountNumber")} /></Field>
         <Field label="WhatsApp Number (with country code, no +)"><input className="tb-input" value={settings.whatsappNumber} onChange={set("whatsappNumber")} /></Field>
-        <Field label="Sunday Fulfillment Message">
+        <Field label="Fulfillment Message">
           <textarea className="tb-input resize-none" rows={2} value={settings.fulfillmentMessage} onChange={set("fulfillmentMessage")} />
+          <p className="text-xs text-ink2 mt-1">Shown to customers alongside their order status, in addition to the date above.</p>
         </Field>
         <Field label="Maximum Orders (optional)">
           <input className="tb-input" type="number" value={settings.maximumOrders || ""} onChange={(e) => setSettings({ ...settings, maximumOrders: e.target.value ? Number(e.target.value) : null })} />

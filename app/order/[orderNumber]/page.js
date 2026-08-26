@@ -6,7 +6,7 @@ import Link from "next/link";
 import StatusBadge from "../../components/StatusBadge";
 import Confetti from "../../components/Confetti";
 import { useToast } from "../../components/Toast";
-import { formatNaira, formatDateTime } from "@/lib/format";
+import { formatNaira, formatDateTime, formatWeekdayDate } from "@/lib/format";
 
 export default function OrderStatusPage() {
   const { orderNumber } = useParams();
@@ -91,7 +91,7 @@ export default function OrderStatusPage() {
         </h1>
         <p className="text-ink2 mt-2">
           {isFresh
-            ? "Your Treatsbox order has been successfully placed in the Sunday queue."
+            ? "Your Treatsbox order has been successfully placed in the queue."
             : `Here's the latest on order ${order.orderNumber}.`}
         </p>
       </div>
@@ -111,6 +111,11 @@ export default function OrderStatusPage() {
                 <p className="font-display text-xl font-semibold text-oxblood tabular-nums">{formatNaira(order.grandTotal)}</p>
               </div>
             </div>
+            {order.collectionDate && (
+              <p className="text-xs text-ink2 mt-2">
+                Ready for collection: <span className="font-semibold text-ink">{formatWeekdayDate(order.collectionDate)}</span>
+              </p>
+            )}
             <div className="flex gap-2 mt-4">
               <StatusBadge kind="order" label={order.orderStatus} />
               <StatusBadge kind="payment" label={order.paymentStatus} />
@@ -129,11 +134,11 @@ export default function OrderStatusPage() {
               {order.paymentStatus === "Awaiting Confirmation" &&
                 "Your receipt has been submitted. Treatsbox will confirm your payment shortly."}
               {order.paymentStatus === "Confirmed" &&
-                "Your payment has been confirmed. Your order stays in the queue for Sunday."}
+                "Your payment has been confirmed. Your order stays in the queue for collection."}
               {order.paymentStatus === "Rejected" &&
                 "We couldn't verify your payment. Please send a clear receipt on WhatsApp, or contact us."}
             </p>
-            <p className="text-sm text-ink2 mt-2">{settings.fulfillmentMessage}</p>
+            <p className="text-sm text-ink2 mt-2">{order.fulfillmentMessage || settings.fulfillmentMessage}</p>
           </div>
         </div>
       </div>

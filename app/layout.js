@@ -4,7 +4,7 @@ import { ToastProvider } from "./components/Toast";
 
 export const metadata = {
   title: "Treatsbox — Order Your Treatsbox",
-  description: "Preorder Treatsbox packs and treats. Ready for collection Sunday after Church service.",
+  description: "Preorder Treatsbox packs and treats — ready for collection on the date we confirm with you.",
 };
 
 export const viewport = {

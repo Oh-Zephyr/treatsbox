@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import StatusBadge from "../../../components/StatusBadge";
-import { formatNaira, formatDateTime } from "@/lib/format";
+import { formatNaira, formatDateTime, formatWeekdayDate } from "@/lib/format";
 
 export default function AdminOrderDetail() {
   const { id } = useParams();
@@ -41,6 +41,9 @@ export default function AdminOrderDetail() {
         <div>
           <h1 className="font-display text-2xl font-semibold text-ink tabular-nums">{order.orderNumber}</h1>
           <p className="text-sm text-ink2">Placed {formatDateTime(order.createdAt)} · Queue position #{order.queuePosition}</p>
+          {order.collectionDate && (
+            <p className="text-sm text-ink2">Ready for collection: <span className="font-semibold text-ink">{formatWeekdayDate(order.collectionDate)}</span></p>
+          )}
         </div>
         <div className="flex gap-2">
           <StatusBadge kind="order" label={order.orderStatus} />

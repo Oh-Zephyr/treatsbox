@@ -41,7 +41,7 @@ export async function POST(req) {
 
     if (!s.acceptingOrders || capacityReached) {
       return NextResponse.json(
-        { error: "Treatsbox preorders are closed for this Sunday. Please check back for the next preorder window." },
+        { error: "Treatsbox preorders are closed right now. Please check back for the next preorder window." },
         { status: 409 }
       );
     }
@@ -77,6 +77,12 @@ export async function POST(req) {
       paymentStatus: "Not Verified",
       receiptStatus: "Not Submitted",
       queuePosition,
+      // Snapshot the collection date and fulfillment message that were
+      // promised at the moment this order was placed. Admin can update
+      // nextPreorderDate for the following cycle without silently changing
+      // what an already-placed order says.
+      collectionDate: s.nextPreorderDate || null,
+      fulfillmentMessage: s.fulfillmentMessage || "",
       createdAt: now,
       updatedAt: now
     };

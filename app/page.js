@@ -7,12 +7,12 @@ import SiteNav from "./components/SiteNav";
 import FoodVisual from "./components/FoodVisual";
 import { MobileOrderBar } from "./components/OrderSummary";
 import ClosedNotice from "./components/ClosedNotice";
+import { formatWeekdayDate, formatWeekdayName } from "@/lib/format";
 
-const HOW_IT_WORKS = [
+const HOW_IT_WORKS_BASE = [
   { title: "Pick your treats", body: "Choose a pack or build your own from individual items." },
   { title: "Make your payment", body: "Transfer the exact amount shown to the account we give you." },
   { title: "Send your receipt", body: "Send it to us on WhatsApp so we can verify it." },
-  { title: "You're in", body: "Your order is queued and ready for Sunday, after Church service." },
 ];
 
 export default function HomePage() {
@@ -36,6 +36,19 @@ export default function HomePage() {
   }
 
   const heroPack = catalog.packages[0];
+  const nextDate = settings?.nextPreorderDate;
+  const weekdayName = formatWeekdayName(nextDate);
+  const weekdayDate = formatWeekdayDate(nextDate);
+
+  const howItWorks = [
+    ...HOW_IT_WORKS_BASE,
+    {
+      title: "You're in",
+      body: nextDate
+        ? `Your order is queued and ready for collection on ${weekdayDate}.`
+        : "Your order is queued and ready for the next collection date.",
+    },
+  ];
 
   return (
     <>
@@ -62,7 +75,9 @@ export default function HomePage() {
                   <span className="w-8 h-8 rounded-full bg-marigold/20 flex items-center justify-center text-xs font-display font-semibold text-oxblood">
                     ★
                   </span>
-                  <span className="text-xs font-semibold text-ink">Sunday Special · {heroPack.name}</span>
+                  <span className="text-xs font-semibold text-ink">
+                    {weekdayName ? `${weekdayName} Special` : "Featured Pack"} · {heroPack.name}
+                  </span>
                 </div>
               )}
             </div>
@@ -70,7 +85,7 @@ export default function HomePage() {
 
           {/* Copy */}
           <div className="order-2 md:order-1">
-            <p className="eyebrow mb-4">Sunday Preorders</p>
+            <p className="eyebrow mb-4">{weekdayName ? `${weekdayName} Preorders` : "Now Taking Preorders"}</p>
             <h1 className="font-display text-4xl sm:text-5xl md:text-[3.4rem] font-semibold text-ink leading-[1.06] tracking-tight">
               Good food deserves a better box.
             </h1>
@@ -100,7 +115,7 @@ export default function HomePage() {
           <p className="eyebrow text-center mb-2">The Process</p>
           <h2 className="font-display text-2xl md:text-3xl font-semibold text-ink text-center mb-12">How It Works</h2>
           <div className="divide-y divide-line">
-            {HOW_IT_WORKS.map((step, i) => (
+            {howItWorks.map((step, i) => (
               <div key={step.title} className="flex items-start gap-6 py-6">
                 <span className="font-display text-3xl md:text-4xl font-semibold text-marigold/60 tabular-nums shrink-0 w-10">
                   {String(i + 1).padStart(2, "0")}
@@ -123,12 +138,16 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* SUNDAY MOMENT — a deliberate contrast break in the page rhythm */}
+      {/* NEXT COLLECTION MOMENT — a deliberate contrast break in the page rhythm */}
       <section className="bg-ink">
         <div className="max-w-2xl mx-auto px-5 md:px-8 py-16 md:py-20 text-center">
-          <p className="font-display italic text-2xl md:text-3xl text-paper">See you Sunday.</p>
+          <p className="font-display italic text-2xl md:text-3xl text-paper">
+            {weekdayName ? `See you ${weekdayName}.` : "Place your order — we'll confirm your date."}
+          </p>
           <p className="text-paper/70 mt-3 max-w-md mx-auto leading-relaxed">
-            Place your preorder and your Treatsbox will be ready to be received after Church service.
+            {nextDate
+              ? `Place your preorder and your Treatsbox will be ready for collection on ${weekdayDate}.`
+              : "Place your preorder and we'll let you know exactly when it's ready for collection."}
           </p>
         </div>
       </section>
@@ -138,7 +157,7 @@ export default function HomePage() {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
           <div>
             <p className="font-display text-xl font-semibold text-ink">Treatsbox</p>
-            <p className="text-sm text-ink2 mt-1">Your Sunday treat, sorted.</p>
+            <p className="text-sm text-ink2 mt-1">Your treat, sorted.</p>
           </div>
           <div className="flex items-center gap-6 text-sm font-semibold text-ink">
             <Link href="/order" className="hover:text-oxblood transition-colors">Order</Link>

@@ -11,7 +11,7 @@ export default function ClosedNotice({ settings }) {
       </div>
       <h1 className="font-display text-3xl font-semibold text-ink mb-3">Treatsbox Preorders Are Closed</h1>
       <p className="text-ink2 leading-relaxed">
-        We&apos;ve reached the limit for this Sunday&apos;s orders. Please check back for the next preorder window.
+        We&apos;ve reached the limit for orders this cycle. Please check back for the next preorder window.
       </p>
       {settings?.cutoffAt && (
         <p className="text-sm text-ink2 mt-2">Orders reopen around {formatDateTime(settings.cutoffAt)}.</p>
