@@ -58,8 +58,8 @@ export async function POST(req) {
       return NextResponse.json({ error: "Your order is empty. Please add a package or some treats first." }, { status: 400 });
     }
 
-    const orderNumber = await nextOrderNumber();
-    const queuePosition = await nextQueuePosition();
+    const orderNumber = nextOrderNumber(db);
+    const queuePosition = nextQueuePosition(db);
     const now = new Date().toISOString();
 
     const order = {
