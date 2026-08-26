@@ -71,7 +71,7 @@ export default function PaymentPage() {
       window.localStorage.removeItem(PENDING_KEY);
       addOrderToHistory(data.order);
       clearCart();
-      router.push(`/order/${data.order.orderNumber}?fresh=1`);
+      router.push(`/order/${data.order.orderNumber}/receipt`);
     } catch {
       setError("Something went wrong. Your order has not been lost — please try again.");
       setSubmitting(false);

@@ -1,12 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { formatWeekdayDate } from "@/lib/format";
 
 export default function AdminSettingsPage() {
   const [settings, setSettings] = useState(null);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [uploadingLogo, setUploadingLogo] = useState(false);
+  const [logoError, setLogoError] = useState("");
+  const logoInputRef = useRef(null);
 
   useEffect(() => {
     fetch("/api/admin/settings").then((r) => r.json()).then((d) => setSettings(d.settings));
@@ -23,6 +26,29 @@ export default function AdminSettingsPage() {
     setSaving(false);
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
+  };
+
+  const handleLogoFile = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setLogoError("");
+    setUploadingLogo(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const res = await fetch("/api/admin/settings/logo", { method: "POST", body: formData });
+      const data = await res.json();
+      if (res.ok) {
+        setSettings(data.settings);
+      } else {
+        setLogoError(data.error || "Something went wrong uploading your logo.");
+      }
+    } catch {
+      setLogoError("Something went wrong uploading your logo. Please try again.");
+    } finally {
+      setUploadingLogo(false);
+      if (logoInputRef.current) logoInputRef.current.value = "";
+    }
   };
 
   if (!settings) return <p className="text-sm text-ink2">Loading settings…</p>;
@@ -64,16 +90,29 @@ export default function AdminSettingsPage() {
 
         <Field label="Business Name"><input className="tb-input" value={settings.businessName} onChange={set("businessName")} /></Field>
 
-        <Field label="Logo URL">
-          <div className="flex items-center gap-3">
-            {settings.logoUrl && (
+        <Field label="Logo">
+          <div className="flex items-center gap-3 mb-2">
+            {settings.logoUrl ? (
               /* eslint-disable-next-line @next/next/no-img-element */
-              <img src={settings.logoUrl} alt="Logo preview" className="h-10 w-auto rounded border border-line bg-white p-1" />
+              <img src={settings.logoUrl} alt="Current logo" className="h-12 w-auto max-w-[140px] object-contain rounded border border-line bg-white p-1.5" />
+            ) : (
+              <div className="h-12 w-12 rounded border border-dashed border-line flex items-center justify-center text-xs text-ink2">None</div>
             )}
-            <input className="tb-input flex-1" placeholder="https://... (leave blank to use the default mark)" value={settings.logoUrl || ""} onChange={set("logoUrl")} />
+            <div className="flex-1">
+              <input
+                ref={logoInputRef}
+                type="file"
+                accept="image/jpeg,image/png,image/webp,image/svg+xml"
+                onChange={handleLogoFile}
+                disabled={uploadingLogo}
+                className="block w-full text-sm text-ink2 file:mr-3 file:rounded-full file:border-0 file:bg-paper2 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-ink hover:file:bg-paper2/70 disabled:opacity-60"
+              />
+              {uploadingLogo && <p className="text-xs text-ink2 mt-1">Uploading…</p>}
+              {logoError && <p className="text-xs text-alert mt-1">{logoError}</p>}
+            </div>
           </div>
-          <p className="text-xs text-ink2 mt-1">
-            Shown in the site header and checkout pages. The admin sidebar icon and browser favicon keep the default mark either way, since those need a small square icon.
+          <p className="text-xs text-ink2">
+            JPG, PNG, WEBP, or SVG, up to 4MB. Shown in the site header and checkout pages — uploads immediately, no need to click Save Settings below. The admin sidebar icon and browser favicon keep the default mark either way, since those need a small square icon.
           </p>
         </Field>
         <Field label="Bank Name"><input className="tb-input" value={settings.bankName} onChange={set("bankName")} /></Field>
