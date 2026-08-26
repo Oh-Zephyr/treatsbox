@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+
+export const dynamic = "force-dynamic";
 import { getDb } from "@/lib/db";
 
 // Public lookup + the one customer-triggerable transition: "I've Sent My Receipt".

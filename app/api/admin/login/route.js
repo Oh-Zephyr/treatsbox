@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+
+export const dynamic = "force-dynamic";
 import bcrypt from "bcryptjs";
 import { getDb } from "@/lib/db";
 import { signAdminToken, ADMIN_COOKIE } from "@/lib/auth";
