@@ -1,11 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useCart } from "./CartContext";
 import { formatNaira } from "@/lib/format";
 import QtyStepper from "./QtyStepper";
 import FoodIcon from "./FoodIcon";
-import Link from "next/link";
 
 function lineIcon(item, catalog) {
   if (item.itemType === "package") {
@@ -150,12 +150,12 @@ export function MobileOrderBar() {
                 >
                   Clear
                 </button>
-                <a
+                <Link
                   href="/checkout"
-                  className="flex-[2] text-center rounded-full bg-oxblood text-white font-semibold py-3 text-sm"
+                  className="flex-[2] text-center rounded-full bg-gradient-to-r from-oxblood to-oxblood2 text-white font-semibold py-3 text-sm shadow-glow"
                 >
                   Continue to Checkout
-                </a>
+                </Link>
               </div>
             </div>
           </div>

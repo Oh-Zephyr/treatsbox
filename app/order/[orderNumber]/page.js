@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import StatusBadge from "../../components/StatusBadge";
+import Confetti from "../../components/Confetti";
 import { useToast } from "../../components/Toast";
 import { formatNaira, formatDateTime } from "@/lib/format";
 
@@ -77,14 +78,15 @@ export default function OrderStatusPage() {
   const receiptSubmitted = order.receiptStatus === "Submitted";
 
   return (
-    <main className="max-w-md mx-auto px-5 md:px-0 py-10 md:py-16">
+    <main className="relative max-w-md mx-auto px-5 md:px-0 py-10 md:py-16 overflow-hidden">
+      {isFresh && <Confetti />}
       <div className="text-center mb-6 animate-slide-up">
-        <div className="w-14 h-14 rounded-full bg-forest/10 flex items-center justify-center mx-auto mb-4">
+        <div className="w-14 h-14 rounded-full bg-gradient-to-br from-forest/20 to-marigold/20 flex items-center justify-center mx-auto mb-4 shadow-glowGold">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-7 h-7 text-forest">
             <path d="M20 6L9 17l-5-5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </div>
-        <h1 className="font-display text-3xl font-semibold text-ink">
+        <h1 className="font-display text-3xl md:text-4xl font-semibold text-ink">
           {isFresh ? "You're In The Queue!" : "Order Status"}
         </h1>
         <p className="text-ink2 mt-2">
@@ -97,6 +99,7 @@ export default function OrderStatusPage() {
       {/* Ticket stub — signature element */}
       <div className="relative animate-pop-in">
         <div className="bg-white rounded-xl2 shadow-pop overflow-hidden">
+          <div className="foil-edge" />
           <div className="p-6">
             <div className="flex items-center justify-between">
               <div>
@@ -141,7 +144,7 @@ export default function OrderStatusPage() {
             href={whatsappHref}
             target="_blank"
             rel="noreferrer"
-            className="flex items-center justify-center gap-2 w-full rounded-full bg-forest text-white font-semibold py-3.5 shadow-pop hover:bg-forest/90 transition-colors"
+            className="flex items-center justify-center gap-2 w-full rounded-full bg-gradient-to-r from-forest to-forest/80 text-white font-semibold py-3.5 shadow-pop hover:brightness-105 transition-all"
           >
             Send Receipt on WhatsApp
           </a>

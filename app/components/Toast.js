@@ -24,7 +24,9 @@ export function ToastProvider({ children }) {
           <div
             key={t.id}
             className={`animate-toast-in pointer-events-auto rounded-full px-4 py-2.5 text-sm font-medium shadow-pop ${
-              t.tone === "error" ? "bg-alert text-white" : "bg-ink text-paper"
+              t.tone === "error"
+                ? "bg-gradient-to-r from-alert to-oxblood2 text-white"
+                : "bg-gradient-to-r from-ink to-oxblood2 text-paper"
             }`}
           >
             {t.message}

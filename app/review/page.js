@@ -2,24 +2,25 @@
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import FlowHeader from "../components/FlowHeader";
 import { useCart } from "../components/CartContext";
 import { SummaryLines, SummaryTotals } from "../components/OrderSummary";
 
 export default function ReviewPage() {
   const router = useRouter();
-  const { customer, totals, hydrated } = useCart();
+  const { customer, totals, hydrated, items } = useCart();
 
   useEffect(() => {
     if (!hydrated) return;
-    if (totals.lineItems.length === 0) {
+    if (items.length === 0) {
       router.replace("/#order");
     } else if (!customer.name || !customer.email) {
       router.replace("/checkout");
     }
   }, [hydrated, totals.lineItems.length, customer, router]);
 
-  if (!hydrated || totals.lineItems.length === 0) return null;
+  if (!hydrated || items.length === 0) return null;
 
   return (
     <>
@@ -55,18 +56,18 @@ export default function ReviewPage() {
         </div>
 
         <div className="flex gap-3">
-          <a
+          <Link
             href="/checkout"
-            className="flex-1 text-center rounded-full border border-line text-ink font-semibold py-3.5"
+            className="flex-1 text-center rounded-full border border-line text-ink font-semibold py-3.5 hover:bg-paper2/60 transition-colors"
           >
             Edit Order
-          </a>
-          <a
+          </Link>
+          <Link
             href="/payment"
-            className="flex-[2] text-center rounded-full bg-oxblood text-white font-semibold py-3.5 shadow-pop hover:bg-oxblood/90 transition-colors"
+            className="flex-[2] text-center rounded-full bg-gradient-to-r from-oxblood to-oxblood2 text-white font-semibold py-3.5 shadow-glow hover:brightness-105 transition-all"
           >
             Continue to Payment
-          </a>
+          </Link>
         </div>
       </main>
     </>

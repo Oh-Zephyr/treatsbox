@@ -16,8 +16,25 @@ html {
 }
 
 body {
-  background-color: #F7EFDD;
-  color: #241B14;
+  background-color: #FBF1E9;
+  color: #2B1526;
+}
+
+/* Soft drifting gradient blobs used behind the hero — the fashion-forward
+   "signature" backdrop referenced throughout the app. */
+.brand-blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(60px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.55;
+}
+.brand-blob.blob-rose {
+  background: radial-gradient(circle at 30% 30%, #E893AF, transparent 70%);
+}
+.brand-blob.blob-gold {
+  background: radial-gradient(circle at 60% 40%, #F0CE8E, transparent 70%);
 }
 
 /* Perforated / die-cut edge used on the queue ticket — the app's signature motif */
@@ -31,7 +48,7 @@ body {
   right: 0;
   top: -1px;
   height: 1px;
-  background-image: radial-gradient(circle, #F7EFDD 2.5px, transparent 2.6px);
+  background-image: radial-gradient(circle, #FBF1E9 2.5px, transparent 2.6px);
   background-size: 14px 3px;
   background-repeat: repeat-x;
 }
@@ -41,7 +58,15 @@ body {
   width: 24px;
   height: 24px;
   border-radius: 9999px;
-  background: #F7EFDD;
+  background: #FBF1E9;
+}
+
+/* Thin gold-foil accent stripe used along the top of premium cards */
+.foil-edge {
+  height: 4px;
+  background: linear-gradient(90deg, #D8A84E, #EFCE8B, #C13868, #D8A84E);
+  background-size: 220% 100%;
+  animation: shimmer 5s linear infinite;
 }
 
 .tabular-nums {
@@ -50,21 +75,29 @@ body {
 
 .tb-input {
   width: 100%;
-  border: 1px solid #E4D6B8;
+  border: 1px solid #EEDCD1;
   background: #FFFFFF;
-  border-radius: 0.9rem;
+  border-radius: 1rem;
   padding: 0.8rem 1rem;
   font-size: 0.95rem;
-  color: #241B14;
+  color: #2B1526;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 .tb-input::placeholder {
-  color: #4A3A2A66;
+  color: #74576A66;
 }
 .tb-input:focus {
   outline: none;
-  border-color: #8C3B2E;
-  box-shadow: 0 0 0 3px rgba(140, 59, 46, 0.12);
+  border-color: #C13868;
+  box-shadow: 0 0 0 3px rgba(193, 56, 104, 0.14);
+}
+
+/* Small floating "reaction" — heart/sparkle that pops up on add-to-order */
+.reaction-pop {
+  position: absolute;
+  pointer-events: none;
+  font-size: 1.1rem;
+  animation: float-up-fade 0.9s ease-out forwards;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -76,7 +109,7 @@ body {
 }
 
 :focus-visible {
-  outline: 2px solid #8C3B2E;
+  outline: 2px solid #C13868;
   outline-offset: 2px;
 }
 
@@ -85,6 +118,6 @@ body {
   height: 10px;
 }
 ::-webkit-scrollbar-thumb {
-  background: #E4D6B8;
+  background: #EEDCD1;
   border-radius: 8px;
 }

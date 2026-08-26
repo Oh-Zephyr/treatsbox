@@ -61,9 +61,12 @@ const ICONS = {
 
 export default function FoodIcon({ name = "food", className = "", tone = "marigold" }) {
   const path = ICONS[name] || ICONS.food;
-  const bg = tone === "paper2" ? "bg-paper2" : "bg-marigold/20";
+  const bg =
+    tone === "paper2"
+      ? "bg-gradient-to-br from-paper2 to-marigold/20"
+      : "bg-gradient-to-br from-marigold/25 via-oxblood/10 to-marigold/25";
   return (
-    <div className={`flex items-center justify-center rounded-full ${bg} ${className}`}>
+    <div className={`flex items-center justify-center rounded-full ring-1 ring-marigold/30 ${bg} ${className}`}>
       <svg
         viewBox="0 0 64 64"
         fill="none"

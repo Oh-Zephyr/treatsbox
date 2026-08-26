@@ -8,7 +8,7 @@ import { SummaryLines, SummaryTotals } from "../components/OrderSummary";
 
 export default function CheckoutPage() {
   const router = useRouter();
-  const { customer, setCustomer, totals, hydrated } = useCart();
+  const { customer, setCustomer, totals, hydrated, items } = useCart();
   const [form, setForm] = useState(customer);
   const [errors, setErrors] = useState({});
 
@@ -17,7 +17,7 @@ export default function CheckoutPage() {
   }, [customer]);
 
   useEffect(() => {
-    if (hydrated && totals.lineItems.length === 0) {
+    if (hydrated && items.length === 0) {
       router.replace("/#order");
     }
   }, [hydrated, totals.lineItems.length, router]);

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { useCart } from "./components/CartContext";
 import SiteNav from "./components/SiteNav";
 import PackageCard from "./components/PackageCard";
@@ -41,22 +42,29 @@ export default function HomePage() {
       <SiteNav />
 
       {/* HERO */}
-      <section className="max-w-6xl mx-auto px-5 md:px-8 pt-14 pb-10 md:pt-20 md:pb-14 text-center">
-        <p className="inline-block text-xs font-bold tracking-widest text-marigold2 uppercase mb-4">
-          Sunday preorders · after Church service
-        </p>
-        <h1 className="font-display text-4xl md:text-6xl font-semibold text-ink leading-[1.05] max-w-3xl mx-auto">
-          Order Your Treatsbox
-        </h1>
-        <p className="text-ink2 text-lg mt-4 max-w-md mx-auto">
-          Choose a ready-made pack or build your own.
-        </p>
-        <a
-          href="#order"
-          className="inline-flex mt-7 rounded-full bg-oxblood text-white font-semibold px-7 py-3.5 shadow-pop hover:bg-oxblood/90 transition-colors"
-        >
-          Start Your Order
-        </a>
+      <section className="relative overflow-hidden">
+        <div className="brand-blob blob-rose w-[420px] h-[420px] -top-32 -left-24 animate-blob-drift" />
+        <div className="brand-blob blob-gold w-[380px] h-[380px] -top-16 right-[-140px] animate-blob-drift-slow" />
+
+        <div className="relative z-10 max-w-6xl mx-auto px-5 md:px-8 pt-16 pb-12 md:pt-24 md:pb-16 text-center">
+          <p className="inline-flex items-center gap-2 font-display italic text-base text-oxblood mb-5">
+            <span className="w-6 h-px bg-marigold2" />
+            Sunday preorders, after Church service
+            <span className="w-6 h-px bg-marigold2" />
+          </p>
+          <h1 className="font-display text-5xl md:text-7xl font-semibold text-ink leading-[1.02] max-w-3xl mx-auto tracking-tight">
+            Order Your Treatsbox
+          </h1>
+          <p className="text-ink2 text-lg mt-5 max-w-md mx-auto">
+            Choose a ready-made pack or build your own — beautifully packaged, always fresh.
+          </p>
+          <Link
+            href="#order"
+            className="inline-flex mt-8 rounded-full bg-gradient-to-r from-oxblood to-oxblood2 text-white font-semibold px-8 py-4 shadow-glow hover:brightness-105 hover:-translate-y-0.5 transition-all"
+          >
+            Start Your Order
+          </Link>
+        </div>
       </section>
 
       {/* ORDER EXPERIENCE */}
@@ -64,7 +72,8 @@ export default function HomePage() {
         <div className="min-w-0">
           {/* Choose a pack */}
           <div className="mb-10">
-            <h2 className="font-display text-2xl font-semibold text-ink">Choose a Pack</h2>
+            <p className="text-xs font-bold tracking-widest text-marigold2 uppercase mb-1">Signature Packs</p>
+            <h2 className="font-display text-2xl md:text-3xl font-semibold text-ink">Choose a Pack</h2>
             <p className="text-ink2 text-sm mt-1 mb-4">Pick one of our ready-made Treatsbox options.</p>
             <div className="grid sm:grid-cols-2 gap-4">
               {catalog.packages.map((pkg) => (
@@ -78,7 +87,8 @@ export default function HomePage() {
 
           {/* Build your own */}
           <div>
-            <h2 className="font-display text-2xl font-semibold text-ink">Build Your Own</h2>
+            <p className="text-xs font-bold tracking-widest text-marigold2 uppercase mb-1">Made To Order</p>
+            <h2 className="font-display text-2xl md:text-3xl font-semibold text-ink">Build Your Own</h2>
             <p className="text-ink2 text-sm mt-1 mb-4">Choose exactly what you want.</p>
             <div className="grid sm:grid-cols-2 gap-3">
               {catalog.products.map((product) => (
@@ -93,12 +103,12 @@ export default function HomePage() {
 
         <DesktopOrderSummary>
           {totals.lineItems.length > 0 && (
-            <a
+            <Link
               href="/checkout"
-              className="mt-4 block text-center rounded-full bg-oxblood text-white font-semibold py-3 text-sm shadow-pop hover:bg-oxblood/90 transition-colors"
+              className="mt-4 block text-center rounded-full bg-gradient-to-r from-oxblood to-oxblood2 text-white font-semibold py-3 text-sm shadow-glow hover:brightness-105 transition-all"
             >
               Continue to Checkout
-            </a>
+            </Link>
           )}
         </DesktopOrderSummary>
       </section>
@@ -110,7 +120,7 @@ export default function HomePage() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {HOW_IT_WORKS.map((step, i) => (
               <div key={step.title} className="bg-white rounded-xl2 shadow-card p-5">
-                <div className="w-9 h-9 rounded-full bg-oxblood text-white font-display text-sm font-semibold flex items-center justify-center mb-3">
+                <div className="w-9 h-9 rounded-full bg-gradient-to-br from-oxblood to-oxblood2 text-white font-display text-sm font-semibold flex items-center justify-center mb-3 shadow-glow">
                   {i + 1}
                 </div>
                 <h3 className="font-semibold text-ink text-sm">{step.title}</h3>

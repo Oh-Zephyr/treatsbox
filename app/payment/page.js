@@ -27,7 +27,7 @@ export default function PaymentPage() {
 
   useEffect(() => {
     if (!hydrated) return;
-    if (totals.lineItems.length === 0) {
+    if (items.length === 0) {
       router.replace("/#order");
     } else if (!customer.name || !customer.email) {
       router.replace("/checkout");
@@ -76,7 +76,7 @@ export default function PaymentPage() {
     }
   };
 
-  if (!hydrated || totals.lineItems.length === 0 || !settings) return null;
+  if (!hydrated || items.length === 0 || !settings) return null;
 
   return (
     <>
