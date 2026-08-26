@@ -14,6 +14,7 @@ export default function SiteNav() {
         <Logo />
         <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-ink2">
           <Link href="/order" className="hover:text-ink transition-colors">Order</Link>
+          <Link href="/track" className="hover:text-ink transition-colors">Track Order</Link>
           <a href="/#how-it-works" className="hover:text-ink transition-colors">How It Works</a>
           <a href="/#contact" className="hover:text-ink transition-colors">Contact</a>
         </nav>

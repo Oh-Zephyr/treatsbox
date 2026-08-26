@@ -161,6 +161,7 @@ export default function HomePage() {
           </div>
           <div className="flex items-center gap-6 text-sm font-semibold text-ink">
             <Link href="/order" className="hover:text-oxblood transition-colors">Order</Link>
+            <Link href="/track" className="hover:text-oxblood transition-colors">Track Order</Link>
             <a href="#contact" className="hover:text-oxblood transition-colors">Contact</a>
             {settings?.whatsappNumber && (
               <a

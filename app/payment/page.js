@@ -7,6 +7,7 @@ import { useCart } from "../components/CartContext";
 import { useToast } from "../components/Toast";
 import { SummaryTotals } from "../components/OrderSummary";
 import { formatNaira } from "@/lib/format";
+import { addOrderToHistory } from "@/lib/orderHistory";
 
 const PENDING_KEY = "treatsbox_pending_order_key";
 
@@ -68,6 +69,7 @@ export default function PaymentPage() {
         return;
       }
       window.localStorage.removeItem(PENDING_KEY);
+      addOrderToHistory(data.order);
       clearCart();
       router.push(`/order/${data.order.orderNumber}?fresh=1`);
     } catch {
