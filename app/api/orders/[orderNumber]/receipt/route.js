@@ -62,7 +62,7 @@ export async function POST(req, { params }) {
 
     order.receiptPath = path;
     order.receiptStatus = "Submitted";
-    if (order.paymentStatus === "Not Verified") {
+    if (order.paymentStatus === "Not Verified" || order.paymentStatus === "Rejected") {
       order.paymentStatus = "Awaiting Confirmation";
     }
     order.updatedAt = new Date().toISOString();

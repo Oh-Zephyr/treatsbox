@@ -28,12 +28,14 @@ export default function UploadReceiptPage() {
     fetch("/api/settings").then((r) => r.json()).then(setSettings);
   }, [orderNumber]);
 
-  // If a receipt is already handled (submitted, or payment already moved
-  // past needing one), there's nothing to ask for here — send them
-  // straight to their order status instead of this page.
+  // This page now only serves one purpose: re-uploading a receipt after a
+  // rejection (the main flow creates the order with a receipt already
+  // attached, so receiptStatus is "Submitted" from the start on every
+  // order). Only stay on this page when payment was actually rejected --
+  // otherwise there's nothing to ask for, send them to their order status.
   useEffect(() => {
     if (!order) return;
-    if (order.receiptStatus === "Submitted" || order.paymentStatus === "Confirmed") {
+    if (order.paymentStatus !== "Rejected") {
       router.replace(`/order/${orderNumber}`);
     }
   }, [order, orderNumber, router]);

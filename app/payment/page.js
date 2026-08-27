@@ -4,20 +4,15 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import FlowHeader from "../components/FlowHeader";
 import { useCart } from "../components/CartContext";
-import { useToast } from "../components/Toast";
 import { SummaryTotals } from "../components/OrderSummary";
 import { formatNaira } from "@/lib/format";
-import { addOrderToHistory } from "@/lib/orderHistory";
 
 const PENDING_KEY = "treatsbox_pending_order_key";
 
 export default function PaymentPage() {
   const router = useRouter();
-  const showToast = useToast();
-  const { customer, items, totals, hydrated, clearCart } = useCart();
+  const { customer, items, totals, hydrated } = useCart();
   const [settings, setSettings] = useState(null);
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState("");
 
   useEffect(() => {
     fetch("/api/settings")
@@ -45,37 +40,11 @@ export default function PaymentPage() {
     }
   };
 
-  const handleIHavePaid = async () => {
-    if (submitting) return;
-    setSubmitting(true);
-    setError("");
-
-    let idempotencyKey = window.localStorage.getItem(PENDING_KEY);
-    if (!idempotencyKey) {
-      idempotencyKey = crypto.randomUUID();
-      window.localStorage.setItem(PENDING_KEY, idempotencyKey);
+  const handleIHavePaid = () => {
+    if (!window.localStorage.getItem(PENDING_KEY)) {
+      window.localStorage.setItem(PENDING_KEY, crypto.randomUUID());
     }
-
-    try {
-      const res = await fetch("/api/orders", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ customer, items, idempotencyKey }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        setError(data.error || "Something went wrong while submitting your order. Please try again.");
-        setSubmitting(false);
-        return;
-      }
-      window.localStorage.removeItem(PENDING_KEY);
-      addOrderToHistory(data.order);
-      clearCart();
-      router.push(`/order/${data.order.orderNumber}/receipt`);
-    } catch {
-      setError("Something went wrong. Your order has not been lost — please try again.");
-      setSubmitting(false);
-    }
+    router.push("/payment/receipt");
   };
 
   if (!hydrated || items.length === 0 || !settings) return null;
@@ -114,16 +83,11 @@ export default function PaymentPage() {
 
         <p className="text-sm text-ink2 mt-6 mb-4">After making your transfer, click the button below.</p>
 
-        {error && (
-          <p className="text-sm text-alert bg-alert/10 rounded-xl px-4 py-3 mb-4">{error}</p>
-        )}
-
         <button
           onClick={handleIHavePaid}
-          disabled={submitting}
-          className="w-full rounded-full bg-gradient-to-r from-oxblood to-oxblood2 text-paper font-semibold py-4 shadow-pop hover:shadow-pop transition-all disabled:opacity-60"
+          className="w-full rounded-full bg-gradient-to-r from-oxblood to-oxblood2 text-paper font-semibold py-4 shadow-pop hover:shadow-pop transition-all"
         >
-          {submitting ? "Placing your order…" : "I Have Paid"}
+          I Have Paid
         </button>
       </main>
     </>

@@ -2,7 +2,7 @@
 
 import Logo from "./Logo";
 
-const STEPS = ["Choose", "Details", "Review", "Payment", "Done"];
+const STEPS = ["Choose", "Details", "Review", "Payment", "Receipt", "Done"];
 
 export default function FlowHeader({ step }) {
   return (
