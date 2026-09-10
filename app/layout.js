@@ -3,8 +3,8 @@ import { CartProvider } from "./components/CartContext";
 import { ToastProvider } from "./components/Toast";
 
 export const metadata = {
-  title: "Treatsbox — Order Your Treatsbox",
-  description: "Preorder Treatsbox packs and treats — ready for collection on the date we confirm with you.",
+  title: "Chops by TBBF — everyday is boxing day!",
+  description: "Preorder your chops from Treats Box By Favor. Everyday is boxing day!",
 };
 
 export const viewport = {

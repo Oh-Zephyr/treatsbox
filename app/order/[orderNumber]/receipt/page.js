@@ -101,7 +101,7 @@ export default function UploadReceiptPage() {
       <main className="max-w-md mx-auto px-5 py-24 text-center">
         <h1 className="font-display text-2xl font-semibold text-ink mb-2">Order Not Found</h1>
         <p className="text-ink2 mb-6">We couldn&apos;t find an order with the number &ldquo;{orderNumber}&rdquo;.</p>
-        <Link href="/" className="text-oxblood font-semibold underline underline-offset-4">Back to Treatsbox</Link>
+        <Link href="/" className="text-oxblood font-semibold underline underline-offset-4">Back to Chops by TBBF</Link>
       </main>
     );
   }
@@ -111,7 +111,7 @@ export default function UploadReceiptPage() {
   }
 
   const whatsappMessage = encodeURIComponent(
-    `Hello Treatsbox,\n\nI have made payment for my order.\n\nOrder Number: ${order.orderNumber}\nName: ${order.customerName}\nAmount: ${formatNaira(order.grandTotal)}\n\nI am sending my payment receipt for verification.`
+    `Hello TBBF,\n\nI have made payment for my order.\n\nOrder Number: ${order.orderNumber}\nName: ${order.customerName}\nAmount: ${formatNaira(order.grandTotal)}\n\nI am sending my payment receipt for verification.`
   );
   const whatsappHref = `https://wa.me/${settings.whatsappNumber}?text=${whatsappMessage}`;
 

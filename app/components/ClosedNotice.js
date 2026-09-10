@@ -9,7 +9,7 @@ export default function ClosedNotice({ settings }) {
           <path d="M9 12h6" />
         </svg>
       </div>
-      <h1 className="font-display text-3xl font-semibold text-ink mb-3">Treatsbox Preorders Are Closed</h1>
+      <h1 className="font-display text-3xl font-semibold text-ink mb-3">Chops by TBBF — Preorders Are Closed</h1>
       <p className="text-ink2 leading-relaxed">
         We&apos;ve reached the limit for orders this cycle. Please check back for the next preorder window.
       </p>

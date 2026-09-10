@@ -102,7 +102,7 @@ export default function OrderStatusPage() {
       <main className="max-w-md mx-auto px-5 py-24 text-center">
         <h1 className="font-display text-2xl font-semibold text-ink mb-2">Order Not Found</h1>
         <p className="text-ink2 mb-6">We couldn&apos;t find an order with the number &ldquo;{orderNumber}&rdquo;.</p>
-        <Link href="/" className="text-oxblood font-semibold underline underline-offset-4">Back to Treatsbox</Link>
+        <Link href="/" className="text-oxblood font-semibold underline underline-offset-4">Back to Chops by TBBF</Link>
       </main>
     );
   }
@@ -112,7 +112,7 @@ export default function OrderStatusPage() {
   }
 
   const whatsappMessage = encodeURIComponent(
-    `Hello Treatsbox,\n\nI have made payment for my order.\n\nOrder Number: ${order.orderNumber}\nName: ${order.customerName}\nAmount: ${formatNaira(order.grandTotal)}\n\nI am sending my payment receipt for verification.`
+    `Hello TBBF,\n\nI have made payment for my order.\n\nOrder Number: ${order.orderNumber}\nName: ${order.customerName}\nAmount: ${formatNaira(order.grandTotal)}\n\nI am sending my payment receipt for verification.`
   );
   const whatsappHref = `https://wa.me/${settings.whatsappNumber}?text=${whatsappMessage}`;
 
@@ -130,7 +130,7 @@ export default function OrderStatusPage() {
         </h1>
         <p className="text-ink2 mt-2">
           {isFresh
-            ? "Your Treatsbox order has been successfully placed in the queue."
+            ? "Your order has been successfully placed in the queue."
             : `Here's the latest on order ${order.orderNumber}.`}
         </p>
       </div>
@@ -171,7 +171,7 @@ export default function OrderStatusPage() {
               {order.paymentStatus === "Not Verified" &&
                 "Your order is already in the queue. Upload your payment receipt below so we can verify it."}
               {order.paymentStatus === "Awaiting Confirmation" &&
-                "Your receipt has been submitted. Treatsbox will confirm your payment shortly."}
+                "Your receipt has been submitted. We will confirm your payment shortly."}
               {order.paymentStatus === "Confirmed" &&
                 "Your payment has been confirmed. Your order stays in the queue for collection."}
               {order.paymentStatus === "Rejected" &&
@@ -259,7 +259,7 @@ export default function OrderStatusPage() {
       </div>
 
       <div className="text-center mt-8">
-        <Link href="/" className="text-sm font-semibold text-oxblood underline underline-offset-4">Back to Treatsbox</Link>
+        <Link href="/" className="text-sm font-semibold text-oxblood underline underline-offset-4">Back to Chops by TBBF</Link>
       </div>
     </main>
   );

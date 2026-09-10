@@ -7,12 +7,12 @@ import SiteNav from "./components/SiteNav";
 import FoodVisual from "./components/FoodVisual";
 import { MobileOrderBar } from "./components/OrderSummary";
 import ClosedNotice from "./components/ClosedNotice";
-import { formatWeekdayDate, formatWeekdayName } from "@/lib/format";
 
-const HOW_IT_WORKS_BASE = [
+const HOW_IT_WORKS = [
   { title: "Pick your treats", body: "Choose a pack or build your own from individual items." },
   { title: "Make your payment", body: "Transfer the exact amount shown to the account we give you." },
   { title: "Upload your receipt", body: "Attach a photo of your payment — it's saved straight to your order." },
+  { title: "You're in", body: "Your order is queued and ready for Sunday." },
 ];
 
 export default function HomePage() {
@@ -36,19 +36,6 @@ export default function HomePage() {
   }
 
   const heroPack = catalog.packages[0];
-  const nextDate = settings?.nextPreorderDate;
-  const weekdayName = formatWeekdayName(nextDate);
-  const weekdayDate = formatWeekdayDate(nextDate);
-
-  const howItWorks = [
-    ...HOW_IT_WORKS_BASE,
-    {
-      title: "You're in",
-      body: nextDate
-        ? `Your order is queued and ready for collection on ${weekdayDate}.`
-        : "Your order is queued and ready for the next collection date.",
-    },
-  ];
 
   return (
     <>
@@ -65,7 +52,7 @@ export default function HomePage() {
               <FoodVisual
                 imageUrl={heroPack?.imageUrl}
                 iconName={heroPack?.image || "chickenpack"}
-                alt={heroPack?.name || "Treatsbox pack"}
+                alt={heroPack?.name || "TBBF pack"}
                 variant="hero"
                 shapeIndex={0}
                 className="w-full aspect-square md:aspect-[4/5]"
@@ -76,7 +63,7 @@ export default function HomePage() {
                     ★
                   </span>
                   <span className="text-xs font-semibold text-ink">
-                    {weekdayName ? `${weekdayName} Special` : "Featured Pack"} · {heroPack.name}
+                    Sunday Special · {heroPack.name}
                   </span>
                 </div>
               )}
@@ -85,12 +72,12 @@ export default function HomePage() {
 
           {/* Copy */}
           <div className="order-2 md:order-1">
-            <p className="eyebrow mb-4">{weekdayName ? `${weekdayName} Preorders` : "Now Taking Preorders"}</p>
+            <p className="eyebrow mb-4">Sunday Preorders</p>
             <h1 className="font-display text-4xl sm:text-5xl md:text-[3.4rem] font-semibold text-ink leading-[1.06] tracking-tight">
-              Good food deserves a better box.
+              Everyday is boxing day.
             </h1>
             <p className="text-ink2 text-lg mt-5 max-w-md leading-relaxed">
-              Pick a ready-made pack or create one exactly the way you want it.
+              Chops by TBBF — pick a ready-made pack or build your own box of treats, ready for Sunday.
             </p>
             <Link
               href="/order"
@@ -115,7 +102,7 @@ export default function HomePage() {
           <p className="eyebrow text-center mb-2">The Process</p>
           <h2 className="font-display text-2xl md:text-3xl font-semibold text-ink text-center mb-12">How It Works</h2>
           <div className="divide-y divide-line">
-            {howItWorks.map((step, i) => (
+            {HOW_IT_WORKS.map((step, i) => (
               <div key={step.title} className="flex items-start gap-6 py-6">
                 <span className="font-display text-3xl md:text-4xl font-semibold text-marigold/60 tabular-nums shrink-0 w-10">
                   {String(i + 1).padStart(2, "0")}
@@ -138,16 +125,12 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* NEXT COLLECTION MOMENT — a deliberate contrast break in the page rhythm */}
+      {/* SUNDAY MOMENT — a deliberate contrast break in the page rhythm */}
       <section className="bg-ink">
         <div className="max-w-2xl mx-auto px-5 md:px-8 py-16 md:py-20 text-center">
-          <p className="font-display italic text-2xl md:text-3xl text-paper">
-            {weekdayName ? `See you ${weekdayName}.` : "Place your order — we'll confirm your date."}
-          </p>
+          <p className="font-display italic text-2xl md:text-3xl text-paper">See you Sunday.</p>
           <p className="text-paper/70 mt-3 max-w-md mx-auto leading-relaxed">
-            {nextDate
-              ? `Place your preorder and your Treatsbox will be ready for collection on ${weekdayDate}.`
-              : "Place your preorder and we'll let you know exactly when it's ready for collection."}
+            Place your preorder and your chops will be ready for collection this Sunday.
           </p>
         </div>
       </section>
@@ -156,8 +139,8 @@ export default function HomePage() {
       <footer id="contact" className="max-w-6xl mx-auto px-5 md:px-8 py-12">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
           <div>
-            <p className="font-display text-xl font-semibold text-ink">Treatsbox</p>
-            <p className="text-sm text-ink2 mt-1">Your treat, sorted.</p>
+            <p className="font-display text-xl font-semibold text-ink">Chops by TBBF</p>
+            <p className="text-sm text-ink2 mt-1 italic">…everyday is boxing day!</p>
           </div>
           <div className="flex items-center gap-6 text-sm font-semibold text-ink">
             <Link href="/order" className="hover:text-oxblood transition-colors">Order</Link>
@@ -175,7 +158,7 @@ export default function HomePage() {
             )}
           </div>
         </div>
-        <p className="text-xs text-ink2/60 mt-8">© {new Date().getFullYear()} Treatsbox. All rights reserved.</p>
+        <p className="text-xs text-ink2/60 mt-8">© {new Date().getFullYear()} Treats Box By Favor. All rights reserved.</p>
       </footer>
 
       <MobileOrderBar />

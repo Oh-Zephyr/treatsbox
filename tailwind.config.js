@@ -11,18 +11,18 @@ module.exports = {
         // Warm ivory / cream — the brand's foundation
         paper: "#FBF3E7",
         paper2: "#F1E3C8",
-        // Deep espresso — near-black, warm, editorial (not flat #000)
-        ink: "#2B1B12",
-        ink2: "#6B5645",
-        // Rich warm amber-gold — the accent
-        marigold: "#C8963E",
-        marigold2: "#A97A2E",
-        // Primary CTA color — espresso, for strong contrast (never blue)
-        oxblood: "#241509",
-        oxblood2: "#4A2E12",
+        // TBBF chocolate brown — headings, primary text
+        ink: "#2E1608",
+        ink2: "#6B4A32",
+        // TBBF caramel/orange — accent, ribbon color from the logo
+        marigold: "#E2984B",
+        marigold2: "#C67A2E",
+        // TBBF brand brown — primary CTA color
+        oxblood: "#5A2A0F",
+        oxblood2: "#3D1C09",
         // Muted olive — positive/queued states
         forest: "#6E7A4E",
-        // Muted brick — alerts, kept out of the gold/espresso family so it reads distinctly
+        // Muted brick — alerts, kept out of the brown/orange family so it reads distinctly
         alert: "#A9432F",
         line: "#DEC9A8",
       },

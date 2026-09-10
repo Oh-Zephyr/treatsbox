@@ -90,7 +90,7 @@ export async function POST(req) {
 
     if (!s.acceptingOrders || capacityReached) {
       return NextResponse.json(
-        { error: "Treatsbox preorders are closed right now. Please check back for the next preorder window." },
+        { error: "Chops by TBBF preorders are closed right now. Please check back for the next preorder window." },
         { status: 409 }
       );
     }

@@ -40,7 +40,7 @@ function LoginForm() {
     <div className="min-h-screen flex items-center justify-center bg-paper px-5">
       <div className="w-full max-w-sm">
         <LogoMark className="w-10 h-10 mx-auto mb-3" />
-        <p className="font-display text-2xl font-semibold text-ink text-center mb-1">Treatsbox</p>
+        <p className="font-display text-2xl font-semibold text-ink text-center mb-1">Chops by TBBF</p>
         <p className="text-sm text-ink2 text-center mb-8">Admin sign in</p>
 
         <form onSubmit={handleSubmit} className="bg-white rounded-xl2 shadow-card p-6 space-y-4">

@@ -10,19 +10,19 @@ import Link from "next/link";
 export function LogoMark({ className = "w-9 h-9" }) {
   return (
     <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
-      <rect x="7" y="20" width="50" height="9" rx="3" fill="#2B1B12" />
-      <rect x="10" y="26" width="44" height="30" rx="3" fill="#2B1B12" />
-      <rect x="27" y="20" width="10" height="36" fill="#D8A84E" />
-      <rect x="10" y="38" width="44" height="6" fill="#D8A84E" />
+      <rect x="7" y="20" width="50" height="9" rx="3" fill="#2E1608" />
+      <rect x="10" y="26" width="44" height="30" rx="3" fill="#2E1608" />
+      <rect x="27" y="20" width="10" height="36" fill="#E2984B" />
+      <rect x="10" y="38" width="44" height="6" fill="#E2984B" />
       <path
         d="M32 20 C32 20 22 10 15 13 C10 15 13 21 20 20.5 C25 20 32 20 32 20 Z"
-        fill="#D8A84E"
+        fill="#E2984B"
       />
       <path
         d="M32 20 C32 20 42 10 49 13 C54 15 51 21 44 20.5 C39 20 32 20 32 20 Z"
-        fill="#D8A84E"
+        fill="#E2984B"
       />
-      <circle cx="32" cy="20" r="4.5" fill="#C13868" />
+      <circle cx="32" cy="20" r="4.5" fill="#5A2A0F" />
     </svg>
   );
 }
@@ -45,7 +45,7 @@ export default function Logo({ href = "/", size = "md", className = "" }) {
     return (
       <Link href={href} className={`inline-flex items-center ${className}`}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={logoUrl} alt="Treatsbox" className={`${imgHeight} w-auto`} />
+        <img src={logoUrl} alt="Chops by TBBF" className={`${imgHeight} w-auto`} />
       </Link>
     );
   }
@@ -53,7 +53,7 @@ export default function Logo({ href = "/", size = "md", className = "" }) {
   return (
     <Link href={href} className={`inline-flex items-center gap-2 ${className}`}>
       <LogoMark className={markSize} />
-      <span className={`font-display ${textSize} font-semibold text-ink tracking-tight`}>Treatsbox</span>
+      <span className={`font-display ${textSize} font-semibold text-ink tracking-tight`}>Chops by TBBF</span>
     </Link>
   );
 }
