@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import FlowHeader from "../components/FlowHeader";
 import { useCart } from "../components/CartContext";
 import { SummaryLines, SummaryTotals } from "../components/OrderSummary";
@@ -48,6 +49,9 @@ export default function CheckoutPage() {
       <FlowHeader step={2} />
       <main className="max-w-3xl mx-auto px-5 md:px-8 py-10 grid md:grid-cols-[1fr_280px] gap-8">
         <form onSubmit={handleContinue} className="min-w-0">
+          <Link href="/order" className="inline-flex items-center gap-1 text-xs font-semibold text-oxblood underline underline-offset-4 mb-4">
+            ← Edit Order
+          </Link>
           <p className="eyebrow mb-2">Almost There</p>
           <h1 className="font-display text-3xl font-semibold text-ink mb-1">Your Details</h1>
           <p className="text-sm text-ink2 mb-8">Just enough to confirm and reach you about your order.</p>
