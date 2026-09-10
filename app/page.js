@@ -12,7 +12,7 @@ import { formatWeekdayDate, formatWeekdayName } from "@/lib/format";
 const HOW_IT_WORKS_BASE = [
   { title: "Pick your treats", body: "Choose a pack or build your own from individual items." },
   { title: "Make your payment", body: "Transfer the exact amount shown to the account we give you." },
-  { title: "Send your receipt", body: "Send it to us on WhatsApp so we can verify it." },
+  { title: "Upload your receipt", body: "Attach a photo of your payment — it's saved straight to your order." },
 ];
 
 export default function HomePage() {
