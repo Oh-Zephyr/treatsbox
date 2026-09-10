@@ -74,10 +74,10 @@ export default function HomePage() {
           <div className="order-2 md:order-1">
             <p className="eyebrow mb-4">Sunday Preorders</p>
             <h1 className="font-display text-4xl sm:text-5xl md:text-[3.4rem] font-semibold text-ink leading-[1.06] tracking-tight">
-              Everyday is boxing day.
+              Chops worth queuing for.
             </h1>
             <p className="text-ink2 text-lg mt-5 max-w-md leading-relaxed">
-              Chops by TBBF — pick a ready-made pack or build your own box of treats, ready for Sunday.
+              Crispy samosas, golden spring rolls, puff puff, beef and chicken — pick a pack or build your own, ready this Sunday.
             </p>
             <Link
               href="/order"
@@ -87,9 +87,9 @@ export default function HomePage() {
             </Link>
 
             <div className="mt-10 pt-8 border-t border-line max-w-md">
-              <p className="font-display italic text-lg text-ink">Made for the moments worth sharing.</p>
+              <p className="font-display italic text-lg text-ink">…everyday is boxing day!</p>
               <p className="text-sm text-ink2 mt-2">
-                Samosas. Spring rolls. Puff puff. Beef. Chicken. Pick your favourites and build your box.
+                Samosas. Spring rolls. Puff puff. Beef. Chicken. Freshly packed, exactly the way you like it.
               </p>
             </div>
           </div>

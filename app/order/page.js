@@ -36,7 +36,7 @@ export default function OrderPage() {
       <section className="max-w-6xl mx-auto px-5 md:px-8 pt-10 md:pt-14 pb-16 md:pb-24">
         <div className="text-center max-w-lg mx-auto mb-12">
           <p className="eyebrow mb-2">Your Order</p>
-          <h1 className="font-display text-3xl md:text-4xl font-semibold text-ink">Build Your Box</h1>
+          <h1 className="font-display text-3xl md:text-4xl font-semibold text-ink">Build Your Chops</h1>
           <p className="text-ink2 mt-2">Start with one of our favourites, or make it your own.</p>
         </div>
 
